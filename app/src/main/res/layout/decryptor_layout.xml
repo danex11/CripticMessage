@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fadingEdge="horizontal|vertical"
+    android:fadingEdgeLength="10dp"
+    android:outlineProvider="bounds"
+>
+
+
+    <EditText
+        android:id="@+id/givenText"
+        style="@style/AppCompatEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="12"
+        android:hint=" your coded message"
+        android:inputType="text"
+        android:maxLines="5"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pastebutton" />
+
+
+    <!--
+ app:startIconContentDescription="icon description"
+    app:startIconDrawable="@drawable/ic_launcher_foreground"
+      -->
+
+    <EditText
+        android:id="@+id/keyText"
+        style="@style/AppCompatEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint=" key here"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="@+id/givenText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/givenText"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/resultText"
+        style="@style/AppCompatEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:ems="12"
+        android:imeOptions="actionNext"
+        android:maxLines="5"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        app:layout_constraintStart_toStartOf="@+id/givenText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <Button
+        android:id="@+id/copybutton"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="85dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="59dp"
+        android:onClick="Copy"
+        android:text="Copy"
+        app:layout_constraintStart_toStartOf="@+id/clearbutton"
+        app:layout_constraintTop_toTopOf="@+id/clearbutton" />
+
+    <Button
+        android:id="@+id/clearbutton"
+        android:layout_width="85dp"
+        android:layout_height="50dp"
+        android:onClick="ClearOnButton"
+        android:text="Clear"
+        app:layout_constraintEnd_toEndOf="@+id/givenText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/resultText"
+        app:layout_constraintTop_toTopOf="@+id/resultText"
+        tools:ignore="OnClick" />
+
+    <Button
+        android:id="@+id/pastebutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="Paste"
+        android:text="Paste"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="result"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/resultText"
+        app:layout_constraintTop_toBottomOf="@+id/keyText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

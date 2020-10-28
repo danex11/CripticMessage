@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5FA102</color>
+    <color name="colorPrimaryDark">#03D8F4</color>
+    <color name="colorAccent">#64D813</color>
+    <color name="colordefaultbackground">#DCEDDC</color>
+    <color name="colorwindowbackground">#98F69C</color>
+    <color name="coursor">#444446</color>
+
+    <color name="textfield1">#009688</color>
+    <color name="textfield2">#673AB7</color>
+    <color name="textfield3">#2196F3</color>
+    <color name="borderColor">#3F51B5</color>
+
+</resources>

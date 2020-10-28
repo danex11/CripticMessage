@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Material based styles -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@color/colordefaultbackground</item>
+        <item name="android:windowBackground">@color/colorwindowbackground</item>
+        <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
+    </style>
+
+    <!-- EditText theme. -->
+    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+    </style>
+
+    <!--
+     <item name="hintTextColor">?attr/colorOnSurface</item>
+        <item name="colorPrimary">@color/textfield1</item>
+        <item name="colorOnSurface">@color/textfield2</item>
+        <item name="colorError">@color/textfield3</item>
+        -->
+
+    <!-- non material styles -->
+    <style name="AppCompatEditText" parent="Widget.AppCompat.EditText">
+        <item name="colorControlActivated">@color/coursor</item>
+        <item name="android:background">@drawable/edittextoutlined</item>"
+    </style>
+
+</resources>

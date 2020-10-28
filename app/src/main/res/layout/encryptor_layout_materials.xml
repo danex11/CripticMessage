@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fadingEdge="horizontal|vertical"
+    android:fadingEdgeLength="10dp"
+    android:outlineProvider="bounds">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:hint="Email"
+        app:boxBackgroundColor="@color/textfield1"
+        app:boxStrokeWidth="2dp"
+        app:boxStrokeWidthFocused="2dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text"
+            android:background="@color/textfield2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/givenTextLayout"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="message"
+        app:hintEnabled="true"
+        app:helperText="type here"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:background="@null"
+            android:id="@+id/givenText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:singleLine="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/keyTextLayout"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="key here"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/givenTextLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/keyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="118dp"
+            tools:layout_editor_absoluteY="116dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/resultTextLayout"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        app:helperText="result messae"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keyTextLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/resultText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            app:layout_constraintEnd_toEndOf="@+id/keyText"
+            app:layout_constraintTop_toBottomOf="@+id/keyText"></com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/sendbutton"
+        android:layout_width="80dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="16dp"
+        android:onClick="Send"
+        android:text="Send"
+        app:layout_constraintBottom_toBottomOf="@+id/phoneTextLayout"
+        app:layout_constraintStart_toEndOf="@+id/phoneTextLayout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/phoneTextLayout"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resultTextLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/phoneText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="phone no"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:maxLength="9"
+            tools:layout_editor_absoluteX="80dp"
+            tools:layout_editor_absoluteY="167dp"></com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
