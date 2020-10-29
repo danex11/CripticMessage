@@ -6,26 +6,11 @@
     android:layout_height="match_parent"
     android:fadingEdge="horizontal|vertical"
     android:fadingEdgeLength="10dp"
-    android:outlineProvider="bounds">
+    android:outlineProvider="bounds"
+    android:background="@color/windowBackground">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:hint="Email"
-        app:boxBackgroundColor="@color/textfield1"
-        app:boxStrokeWidth="2dp"
-        app:boxStrokeWidthFocused="2dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text"
-            android:background="@color/textfield2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- input EditText -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/givenTextLayout"
         style="@style/Widget.App.TextInputLayout"
@@ -33,23 +18,27 @@
         android:layout_height="wrap_content"
         android:hint="message"
         app:hintEnabled="true"
+        app:hintTextColor="@color/colorPrimaryDark"
         app:helperText="type here"
         app:helperTextEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:background="@null"
             android:id="@+id/givenText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
             android:inputType="textMultiLine"
             android:maxLines="5"
             android:scrollbars="vertical"
             android:singleLine="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- key EditText -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/keyTextLayout"
         style="@style/Widget.App.TextInputLayout"
@@ -71,6 +60,7 @@
             tools:layout_editor_absoluteY="116dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- result Text -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/resultTextLayout"
         style="@style/Widget.App.TextInputLayout"
@@ -79,6 +69,8 @@
         android:ems="12"
         app:helperText="result messae"
         app:helperTextEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="160"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/keyTextLayout">
@@ -106,6 +98,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/phoneTextLayout"
         app:layout_constraintStart_toEndOf="@+id/phoneTextLayout" />
 
+    <!-- phone EditText -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phoneTextLayout"
         style="@style/Widget.App.TextInputLayout"

@@ -7,6 +7,7 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.InputType;
@@ -37,10 +38,29 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 //todo reset to new layout/activity with new icon click
-public class Encryptor extends AppCompatActivity {
-//TODO two apps with two icons on one installation
-//https://derekreynolds.wordpress.com/2012/06/09/how-to-have-multiple-launcher-icons-in-one-android-apk-install-for-different-activities/
 
+
+//TODO shorten ecnoded string to fixed length  -  I KNOW IT'S POSSIBLE I ALREADY'VE DONE IT
+// to not exeed one SMS length
+
+//todo SMS sended toast displays always
+
+//todo animate envelope to display flow of actions
+
+//todo 9png for textfield frame or layout frame
+
+//todo max keylength to say 10 characters
+
+//todo statusBar in color of icons - for both APIs
+
+//  https://derekreynolds.wordpress.com/2012/06/09/how-to-have-multiple-launcher-icons-in-one-android-apk-install-for-different-activities/
+
+//  https://developer.android.com/reference/android/widget/TextView.html#attr_android:imeOptions
+
+//todo in Encryptor after entering key set focus to phoneTextField, in Decryptor set focus to nothing
+
+
+public class Encryptor extends AppCompatActivity {
     byte[] keyBytesFromStr;
     String cipherB64Text;
     String[] encodedSourceText;
@@ -79,6 +99,9 @@ public class Encryptor extends AppCompatActivity {
         //        //reaction to specific action on this view  -  keyboard "Enter" reaction
         final EditText editKey;
         editKey = (EditText) findViewById(R.id.keyText);
+        //set passworh hint font to default - it has mambojumboed
+        editKey.setTypeface(Typeface.DEFAULT);
+        //set behaviour for keyboard on keyText
         editKey
                 .setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override

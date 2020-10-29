@@ -1,18 +1,24 @@
 <resources>
 
-    <!-- Material based styles -->
+    <!-- >>>>>>>>>>>>>>>Material based styles -->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
-        <!-- Customize your theme here. -->
-        <item name="android:background">@color/colordefaultbackground</item>
-        <item name="android:windowBackground">@color/colorwindowbackground</item>
+        <!-- Customize your theme here.
+        assign parameters like colors to displayed objects-->
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
     </style>
+
 
     <!-- EditText theme. -->
     <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeWidth">2dp</item>
         <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="hintTextColor">@color/colorPrimaryDark</item>
     </style>
 
     <!--
@@ -22,7 +28,7 @@
         <item name="colorError">@color/textfield3</item>
         -->
 
-    <!-- non material styles -->
+    <!-- >>>>>>>>>>>>>Non material styles -->
     <style name="AppCompatEditText" parent="Widget.AppCompat.EditText">
         <item name="colorControlActivated">@color/coursor</item>
         <item name="android:background">@drawable/edittextoutlined</item>"

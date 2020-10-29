@@ -7,19 +7,21 @@
     android:fadingEdge="horizontal|vertical"
     android:fadingEdgeLength="10dp"
     android:outlineProvider="bounds"
+    android:background="@color/windowBackground"
     >
 
+    <!-- input EditText -->
 
     <EditText
         android:id="@+id/givenText"
         style="@style/AppCompatEditText"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:ems="12"
+        android:padding="10dp"
         android:hint=" type your message ..."
         android:inputType="textMultiLine"
         android:maxLines="5"
@@ -30,14 +32,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.992" />
-
+    <!-- key EditText -->
     <EditText
         android:id="@+id/keyText"
         style="@style/AppCompatEditText"
+        android:background="@drawable/keysmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="152dp"
-        android:ems="10"
+        android:padding="3dp"
+        android:ems="6"
         android:hint=" key here"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
@@ -45,38 +49,48 @@
         app:layout_constraintEnd_toEndOf="@+id/givenText"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+    <!-- result Text -->
+
+    <!-- phone Edit Text -->
 
     <EditText
         android:id="@+id/resultText"
         style="@style/AppCompatEditText"
-
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:ems="12"
+        android:background="@drawable/padlockclosedsmall"
         android:imeOptions="actionNext"
         android:maxLines="5"
+        android:paddingTop="24dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="10dp"
         android:scrollbars="vertical"
         android:singleLine="false"
         app:layout_constraintEnd_toStartOf="@+id/copybutton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/phoneText" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneText"
+        tools:text="gNIb35w8bR8sjN481QYgrglxkgUPhKfgj" />
 
     <Button
         android:id="@+id/sendbutton"
-        android:layout_width="85dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:onClick="Send"
         android:text="Send"
         app:layout_constraintBaseline_toBaselineOf="@+id/phoneText"
-        app:layout_constraintEnd_toEndOf="@+id/givenText"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/resultText" />
+        app:layout_constraintEnd_toEndOf="@+id/keyText"
+        app:layout_constraintStart_toEndOf="@+id/phoneText" />
 
     <EditText
         android:id="@+id/phoneText"
+        style="@style/AppCompatEditText"
+
         android:layout_width="170dp"
         android:layout_height="42dp"
         android:layout_marginTop="32dp"
@@ -93,10 +107,9 @@
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="85dp"
         android:layout_height="50dp"
-        android:layout_marginTop="4dp"
         android:onClick="Copy"
         android:text="Copy"
-        app:layout_constraintEnd_toEndOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/phoneText" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/resultText"
+        app:layout_constraintEnd_toEndOf="@+id/givenText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

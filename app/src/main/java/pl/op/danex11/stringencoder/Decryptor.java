@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.InputType;
@@ -35,25 +36,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 import pl.op.danex11.stringencoder.R;
 
-
+/**
+ *
+ */
 public class Decryptor extends AppCompatActivity {
 
-//TODO shorten ecnoded string to fixed length  -  I KNOW IT'S POSSIBLE I ALREADY'VE DONE IT
-// to not exeed one SMS length
 
-    //todo SMS sended toast displays always
-
-    //todo animate envelope to display flow of actions
-
-    //todo 9png for textfield frame or layout frame
-
-    //todo max keylength to say 10 characters
-
-    //todo statusBar in color of icons - for both APIs
-
-    //  https://derekreynolds.wordpress.com/2012/06/09/how-to-have-multiple-launcher-icons-in-one-android-apk-install-for-different-activities/
-
-    //  https://developer.android.com/reference/android/widget/TextView.html#attr_android:imeOptions
 
     byte[] keyBytesFromStr;
     String cipherB64Text;
@@ -93,7 +81,6 @@ public class Decryptor extends AppCompatActivity {
        // inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 
 
-
         //given text winding and keyboard behaviour
         final EditText givenText;
         givenText = findViewById(R.id.givenText);
@@ -103,7 +90,9 @@ public class Decryptor extends AppCompatActivity {
         //reaction to specific action on this view -  keyboard "Enter" reaction
         final EditText editKey;
         editKey = (EditText) findViewById(R.id.keyText);
-
+        //set passworh hint font to default - it has mambojumboed
+        editKey.setTypeface(Typeface.DEFAULT);
+        //set behaviour for keyboard on keyText
         //action on keyboard confirm
         editKey
                 .setOnEditorActionListener(new TextView.OnEditorActionListener() {

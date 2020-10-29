@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- https://stackoverflow.com/questions/50817383/change-the-textinputlayout-outline-color -->
+
+<!-- for style: Widget.App.TextInputLayout at styles>material based styles -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="true" android:color="@color/buttonDark"/>
-    <item android:state_hovered="true" android:color="@color/buttonDark"/>
-    <item android:state_focused="true" android:color="@color/buttonDark"/>
-    <item android:color="@color/buttonDark"/>
+    <item android:color="#cfc" android:state_focused="true" />
+    <item android:color="#ffc" android:state_first="true" />
+    <item android:color="@color/colorPrimaryDark" />
 </selector>
