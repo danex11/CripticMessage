@@ -4,25 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/windowBackground"
     android:fadingEdge="horizontal|vertical"
     android:fadingEdgeLength="10dp"
-    android:outlineProvider="bounds"
-    android:background="@color/windowBackground">
+    android:outlineProvider="bounds">
 
 
     <!-- input EditText -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/givenTextLayout"
         style="@style/Widget.App.TextInputLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:hint="message"
-        app:hintEnabled="true"
-        app:hintTextColor="@color/colorPrimaryDark"
-        app:helperText="type here"
-        app:helperTextEnabled="true"
         app:counterEnabled="true"
         app:counterMaxLength="100"
+        app:helperText="type here"
+        app:helperTextEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -41,12 +44,13 @@
     <!-- key EditText -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/keyTextLayout"
-        style="@style/Widget.App.TextInputLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="key here"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:endIconDrawable="@drawable/keysmall"
+        app:endIconMode="custom"
+        app:endIconTint="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="@+id/givenTextLayout"
         app:layout_constraintTop_toBottomOf="@+id/givenTextLayout">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -56,28 +60,35 @@
             android:ems="10"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
+            android:padding="3dp"
             tools:layout_editor_absoluteX="118dp"
             tools:layout_editor_absoluteY="116dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- result Text -->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/resultTextLayout"
-        style="@style/Widget.App.TextInputLayout"
-        android:layout_width="wrap_content"
+        style="@style/Widget.App.TextCodedLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:ems="12"
-        app:helperText="result messae"
-        app:helperTextEnabled="true"
         app:counterEnabled="true"
         app:counterMaxLength="160"
+        app:helperText="coded message"
+        app:helperTextEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/keyTextLayout">
+        app:layout_constraintTop_toBottomOf="@+id/sendbutton"
+        app:startIconDrawable="@drawable/padlockclosedsmall"
+        app:startIconTint="@color/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/resultText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="72dp"
             android:imeOptions="actionNext"
@@ -86,40 +97,61 @@
             android:singleLine="false"
             app:layout_constraintEnd_toEndOf="@+id/keyText"
             app:layout_constraintTop_toBottomOf="@+id/keyText"></com.google.android.material.textfield.TextInputEditText>
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/sendbutton"
-        android:layout_width="80dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:onClick="Send"
         android:text="Send"
-        app:layout_constraintBottom_toBottomOf="@+id/phoneTextLayout"
-        app:layout_constraintStart_toEndOf="@+id/phoneTextLayout" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keyTextLayout" />
 
     <!-- phone EditText -->
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
+        android:id="@+id/phoneText"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:ems="9"
+        android:hint="phone no"
+        android:imeOptions="actionNext"
+        android:inputType="phone"
+        android:maxLength="9"
+        android:padding="4dp"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sendbutton"
+        app:layout_constraintEnd_toStartOf="@+id/sendbutton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/resultTextLayout" />
+
+
+    <!--
+       <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phoneTextLayout"
-        style="@style/Widget.App.TextInputLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultTextLayout">
+        android:layout_marginStart="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sendbutton"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/phoneText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_height="40dp"
+            android:ems="9"
             android:hint="phone no"
             android:imeOptions="actionNext"
             android:inputType="phone"
             android:maxLength="9"
-            tools:layout_editor_absoluteX="80dp"
-            tools:layout_editor_absoluteY="167dp"></com.google.android.material.textfield.TextInputEditText>
+            android:padding="4dp"></com.google.android.material.textfield.TextInputEditText>
+
     </com.google.android.material.textfield.TextInputLayout>
+    -->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

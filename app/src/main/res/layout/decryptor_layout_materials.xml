@@ -15,10 +15,16 @@
         style="@style/Widget.App.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:hint="click paste"
-        app:helperText="your coded message"
+        app:helperText="coded message"
         app:helperTextEnabled="true"
         app:hintEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="160"
+        app:startIconDrawable="@drawable/padlockclosedsmall"
+        app:startIconTint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pastebutton">
@@ -47,6 +53,11 @@
         android:hint="key here"
         app:helperText="your secred word"
         app:helperTextEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="16"
+        app:endIconDrawable="@drawable/keysmall"
+        app:endIconMode="custom"
+        app:endIconTint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/givenTextLayout"
@@ -59,60 +70,80 @@
             android:id="@+id/keyText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="3dp"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- result Text -->
-    <EditText
-        android:id="@+id/resultText"
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/resultTextLayout"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:ems="12"
-        android:imeOptions="actionNext"
-        android:maxLines="5"
-        android:scrollbars="vertical"
-        android:singleLine="false"
+        app:counterEnabled="true"
+        app:counterMaxLength="160"
+        app:helperText="real message"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/keyTextLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/keyTextLayout">
 
-    <Button
-        android:id="@+id/copybutton"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="80dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="59dp"
-        android:onClick="Copy"
-        android:text="Copy"
-        app:layout_constraintStart_toStartOf="@+id/clearbutton"
-        app:layout_constraintTop_toTopOf="@+id/clearbutton" />
-
-    <Button
-        android:id="@+id/clearbutton"
-        android:layout_width="85dp"
-        android:layout_height="51dp"
-        android:onClick="ClearOnButton"
-        android:text="Clear"
-        app:layout_constraintBottom_toBottomOf="@+id/resultText"
-        app:layout_constraintStart_toEndOf="@+id/resultText"
-        tools:ignore="OnClick" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/resultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            app:layout_constraintEnd_toEndOf="@+id/keyText"
+            app:layout_constraintTop_toBottomOf="@+id/keyText" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/pastebutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:onClick="Paste"
         android:text="Paste"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/copybutton"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="59dp"
+        android:onClick="Copy"
+        android:text="Copy"
+        app:layout_constraintEnd_toEndOf="@+id/clearbutton"
+        app:layout_constraintStart_toStartOf="@+id/clearbutton"
+        app:layout_constraintTop_toTopOf="@+id/clearbutton" />
+
+    <Button
+        android:id="@+id/clearbutton"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="12dp"
+        android:onClick="ClearOnButton"
+        android:text="Clear"
+        app:layout_constraintEnd_toEndOf="@+id/keyTextLayout"
+        app:layout_constraintTop_toBottomOf="@+id/resultTextLayout"
+        tools:ignore="OnClick" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

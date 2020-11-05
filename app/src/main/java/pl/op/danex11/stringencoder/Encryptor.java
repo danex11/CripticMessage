@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -24,34 +29,35 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.KeySpec;
 import java.util.Arrays;
 //import java.util.Base64;
 import android.util.Base64;
 import android.widget.Toast;
 
-import pl.op.danex11.stringencoder.R;
+import org.bouncycastle.jcajce.provider.symmetric.AES;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 //todo reset to new layout/activity with new icon click
 
-
-//TODO shorten ecnoded string to fixed length  -  I KNOW IT'S POSSIBLE I ALREADY'VE DONE IT
+//TODO shorten ecnoded string to fixed length  -  I HAVE NOT DONE IT
 // to not exeed one SMS length
 
 //todo SMS sended toast displays always
 
 //todo animate envelope to display flow of actions
 
-//todo 9png for textfield frame or layout frame
-
 //todo max keylength to say 10 characters
-
-//todo statusBar in color of icons - for both APIs
 
 //  https://derekreynolds.wordpress.com/2012/06/09/how-to-have-multiple-launcher-icons-in-one-android-apk-install-for-different-activities/
 
@@ -59,11 +65,14 @@ import javax.crypto.spec.SecretKeySpec;
 
 //todo in Encryptor after entering key set focus to phoneTextField, in Decryptor set focus to nothing
 
+//todo disable(hide) phone sending button until message gots coded
+// OR constrain Focused field to keyboard to hide fields below
+// OR set Toast message if coded messagefield is empty
 
 public class Encryptor extends AppCompatActivity {
     byte[] keyBytesFromStr;
     String cipherB64Text;
-    String[] encodedSourceText;
+    String encodedSourceText;
     String[] decodedText;
 
     //copy and paste -ing
@@ -112,13 +121,13 @@ public class Encryptor extends AppCompatActivity {
                             // handle action here
                             //todo
                             try {
-                                encode_array(findViewById(R.id.keyText));
-                            } catch (IOException e) {
+                                setViews(findViewById(R.id.keyText));
+                            } catch (IOException | NoSuchAlgorithmException e) {
                                 e.printStackTrace();
                             }
                             ClearEditText(givenText);
                             //hide keyboard
-                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(editKey.getWindowToken(), 0);
                             handled = true;
                         }
@@ -145,7 +154,7 @@ public class Encryptor extends AppCompatActivity {
     }
 
     /**
-     * SEND
+     * SMS SENDING
      */
     public void Send(View view) {
         //message
@@ -158,12 +167,91 @@ public class Encryptor extends AppCompatActivity {
         ed3phone = findViewById(R.id.phoneText);
         String phoneNo;
         phoneNo = ed3phone.getText().toString();
-        String number = "+48" + phoneNo;
-        //sending
-        SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
-        Toast.makeText(getApplicationContext(), "SMS sended successfully",
-                Toast.LENGTH_LONG).show();
+        //String number = "+48" + phoneNo;
+        String number = phoneNo;
+        if (number == null) {
+            Toast.makeText(getBaseContext(), "No phone number",
+                    Toast.LENGTH_LONG).show();
+        } else {   //sms sending
+//todo
+            //   PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent("SMS_SENT"), 0);
+            //   PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent("SMS_DELIVERED"), 0);
+//  https://mobiforge.com/design-development/sms-messaging-android
+            //SmsManager.getDefault().sendTextMessage(number, null, messageToSend, sentPI, deliveredPI);
+            if (number.length() != 9) {
+                Toast.makeText(getBaseContext(), "Wrong phone number",
+                        Toast.LENGTH_LONG).show();
+                sendSMS(number, messageToSend);
+            } else {
+                sendSMS(number, messageToSend);
+            }
+            // Toast.makeText(getApplicationContext(), "SMS sended successfully",
+            //  Toast.LENGTH_LONG).show();}
+
+        }
     }
+
+    //---sends an SMS message to another device---
+    private void sendSMS(String phoneNumber, String message) {
+        String SENT = "SMS_SENT";
+        String DELIVERED = "SMS_DELIVERED";
+
+        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0,
+                new Intent(SENT), 0);
+
+        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
+                new Intent(DELIVERED), 0);
+
+        //---when the SMS has been sent---
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS sent",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Toast.makeText(getBaseContext(), "Generic failure",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Toast.makeText(getBaseContext(), "No service",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        Toast.makeText(getBaseContext(), "Null PDU",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        Toast.makeText(getBaseContext(), "Radio off",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(SENT));
+
+        //---when the SMS has been delivered---
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS delivered",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(getBaseContext(), "SMS not delivered",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(DELIVERED));
+
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+    }
+
 
     /**
      * PASTE
@@ -196,161 +284,13 @@ public class Encryptor extends AppCompatActivity {
 
 
     /**
-     * * this is for working with arrays of strings
-     *
-     * @param view
-     * @throws IOException
-     */
-    public void encode_array(View view) throws IOException {
-        //>> for String
-        //put hardcoded array here
-        String[] userIdFirebaseArr = {""};
-        // userIdFirebaseArr[0]= "StringToEncode";
-
-        //Get text from message textfield
-        TextView givenTextView = findViewById(R.id.givenText);
-        String givenTextStrg = givenTextView.getText().toString();
-        userIdFirebaseArr[0] = givenTextStrg;
-
-        //String userIdFirebase = userIdFirebaseArr[0];
-        Log.i("En_tagplaintext", Arrays.toString(userIdFirebaseArr));
-        encodedSourceText = En_text(userIdFirebaseArr);
-/*
-        //>> for String[]
-        // array of messages
-        Log.i("En_tagplaintext", Arrays.toString(messagesMessages()));
-         encodedSourceText = En_text(messagesMessages());
-
-//Logcat is not capable of displaying all records, cuts it halfway
-        Log.i("En_tagcipheredtext", Arrays.toString(encodedSourceText));
-        //Log.i("En_tagcipheredtext",String.valueOf(encodedSourceText ));
-*/
-/*
-        //>> writing to file
-        writeToFile(Arrays.toString(encodedSourceText));
-*/
-        TextView resultTextView = findViewById(R.id.resultText);
-        resultTextView.setText(encodedSourceText[0]);
-        //String resultTextStrg = givenTextView.getText().toString();
-
-    }
-
-/*
-    private void writeToFile(String content) {
-        try {
-            File path = getApplicationContext().getExternalFilesDir(null); //Environment.getExternalStorageDirectory() + "/test.txt";
-            File file = new File(path, "test.txt");
-
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter writer = new FileWriter(file);
-            writer.append(content);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            Log.e("tag", "not written", e);
-        }
-    }
- */
-
-    /**
-     * * this is for working with arrays of strings
-     *
-     * @param view
-     */
-    public void decode_array(View view) {
-        //>> for String
-        //put hardcoded array here
-        String[] userIdFirebaseArr = {""};
-        // userIdFirebaseArr[0]= "StringToEncode";
-        //Get text from message textfield
-        TextView givenTextView = findViewById(R.id.givenText);
-
-        String givenTextStrg = givenTextView.getText().toString();
-        userIdFirebaseArr[0] = givenTextStrg;
-        decodedText = De_text(userIdFirebaseArr);
-        Log.i("En_tagDecipheredtext", Arrays.toString(decodedText));
-
-        TextView resultTextView = findViewById(R.id.resultText);
-        resultTextView.setText(decodedText[0]);
-
-    }
-
-    /**
-     * Encrypting method
-     *
-     * @param plaintext
-     * @return
-     */
-    public String[] En_text(String[] plaintext) {
-        Cipher cipher = null;
-        String[] encoded64texts = new String[plaintext.length];
-        Log.i("tag_array.length", String.format("tag_plaintextlength = %d", plaintext.length));
-        try {
-            //AdvancedEncodingStandard ElectronicCodeBook
-            //PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt, if the data does not align with a 64 bit or 128 bit block size boundary.
-            //AES supported key sizes?
-            cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            e.printStackTrace();
-        }
-
-        //Typed key
-        TextView editedTextView = findViewById(R.id.keyText);
-        String KeyStrg = editedTextView.getText().toString();
-        //Hash key
-        String hashedKey = md5(KeyStrg);
-        Log.i("tag_hashedKey", hashedKey);
-        keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
-
-        //Password-Based Key Derivation Function 2 is a key stretching algorithm
-        //adding bytes to passphase to make a key out of it
-        //https://stackoverflow.com/questions/29354133/how-to-fix-invalid-aes-key-length
-        //https://stackoverflow.com/questions/8091519/pbkdf2-function-in-android
-
-        String algorithmo = "RawByteso";
-        SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, algorithmo);
-
-        //ENCRYPT array in loop
-        try {
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-
-            //TODO this is where we do every string one after another
-            for (int i = 0; i < plaintext.length; i++) {
-                byte[] plainTextBytes = plaintext[i].getBytes(StandardCharsets.UTF_8);
-//text as bytes
-                byte[] cipherText = cipher.doFinal(plainTextBytes);
-//text as string
-                cipherB64Text = Base64.encodeToString(cipherText, Base64.DEFAULT);
-
-                //String text = readFileAsString("textfile.txt");
-                //String cipherB64TextFormat = "\"" + cipherB64Text.replace("\n", "")+ "\"";//.replace("\r", "");
-
-//this is specyfic formatting for messagesMessages()
-                //encoded64texts[i] = "\"" + cipherB64Text.substring(0, 24) + "\"";
-                encoded64texts[i] = cipherB64Text;
-
-
-                //this is general function
-                //encoded64texts[i] = cipherB64Text;
-            }
-
-
-        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
-        }
-
-        return encoded64texts;
-    }
-
-    /**
      * Decrypting method
      *
      * @param ciphertext
      * @return
      */
     public String[] De_text(String[] ciphertext) {
+        /*
         Cipher cipher = null;
         String[] decodedTexts = new String[ciphertext.length];
 
@@ -359,7 +299,7 @@ public class Encryptor extends AppCompatActivity {
         TextView editedTextView = findViewById(R.id.keyText);
         String KeyStrg = editedTextView.getText().toString();
         //Hash key
-        String hashedKey = md5(KeyStrg);
+        String hashedKey = formatKey(KeyStrg);
         Log.i("tag_hashedKey", hashedKey);
         keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
 
@@ -398,6 +338,169 @@ public class Encryptor extends AppCompatActivity {
         }
 
         return decodedTexts;
+         */
+        String[] empty = new String[0];
+        return empty;
+    }
+
+    /**
+     * * this is for working with arrays of strings
+     *
+     * @param view
+     */
+    public void decode_array(View view) {
+        //>> for String
+        //put hardcoded array here
+        String[] userIdFirebaseArr = {""};
+        // userIdFirebaseArr[0]= "StringToEncode";
+        //Get text from message textfield
+        TextView givenTextView = findViewById(R.id.givenText);
+
+        String givenTextStrg = givenTextView.getText().toString();
+        userIdFirebaseArr[0] = givenTextStrg;
+        decodedText = De_text(userIdFirebaseArr);
+        Log.i("En_tagDecipheredtext", Arrays.toString(decodedText));
+
+        TextView resultTextView = findViewById(R.id.resultText);
+        resultTextView.setText(decodedText[0]);
+
+    }
+
+
+    /**
+     * * this is for working with arrays of strings
+     *
+     * @param view
+     * @throws IOException
+     */
+    public void setViews(View view) throws IOException, NoSuchAlgorithmException {
+        //>> for String
+        //Get text from message textfield
+        TextView givenTextView = findViewById(R.id.givenText);
+        //String givenTextStrg = givenTextView.getText().toString();
+        String givenTextStrg = "PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt into.";
+
+        //THERE
+        encodedSourceText = En_text(givenTextStrg);
+
+        TextView resultTextView = findViewById(R.id.resultText);
+        resultTextView.setText(encodedSourceText);
+    }
+
+
+    /**
+     * Encrypting method
+     *
+     * @param plaintext
+     * @return
+     */
+    public String En_text(String plaintext) throws NoSuchAlgorithmException {
+        //"AES/ECB/PKCS5Padding"
+        String algorithm = "AES/ECB/PKCS5Padding";
+        Cipher cipher = null;
+
+        try {
+            //AdvancedEncodingStandard ElectronicCodeBook
+            //PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt into. , if the data does not align with a 64 bit or 128 bit block size boundary.
+            //AES supported key sizes?
+            //todo try different algorithms
+
+            //algorithms providers to trasverse throught
+            // Log.i("tagProvid", String.valueOf(Security.getProviders()) + Arrays.toString(Security.getProviders()));
+            cipher = Cipher.getInstance(algorithm);
+
+            /*
+            >ALGORITHMS<
+            AES
+            keylength:  128/192/256 bits
+            encoding 100 chars gives 154 chars
+            DES
+            keylength: 8 bytes
+            encoding 100 chars gives 142 chars
+            DESede
+            keylength: 16 or 24 bytes
+            encoding 100 chars gives 142 chars
+            ECIES
+            no Provider
+            RC2
+            no Provider
+            RC4
+            keylength: variable
+            encoding 100 chars gives 138 chars
+            RC5
+            no Provider
+            Blowfish
+            keylength:
+            encoding 100 chars gives 142 chars
+            ECIES
+            no Provider
+
+
+            >when generating an instance of MessageDigest - for KeyGen <
+            SHA-512
+            keylength(noPadding): 128 Bytes
+            SHA-256
+            keylength(noPadding): 64 Bytes
+            MD5
+            keylength(noPadding): 32 Bytes (256 bits)
+
+             */
+
+            //cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            Log.i("tagCipherExep", "e ofAlgorithm");
+            Log.i("tagCipherExep", String.valueOf(e));
+            e.printStackTrace();
+        }
+
+        //Typed key
+        TextView editedTextView = findViewById(R.id.keyText);
+        String KeyStrg = editedTextView.getText().toString();
+        //Hashed key
+        String hashedKey = generateKey(KeyStrg);
+        Log.i("tagKey", " Key " + hashedKey);
+        Log.i("tagKey", " Key length " + hashedKey.length());
+        keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
+        String algorithmo = "RawByteso";
+        SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, algorithmo);
+        Log.i("tagKey", " secretKeyspec " + key);
+        //Log.i("tagKey", " secretKeyspec length " + key.);
+        //keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
+        //Log.i("tagKey", " hashedKeyArrayElementCount " + keyBytesFromStr.length);
+
+        //Password-Based Key Derivation Function 2 is a key stretching algorithm
+        //adding bytes to passphase to make a key out of it
+        //https://stackoverflow.com/questions/29354133/how-to-fix-invalid-aes-key-length
+        //https://stackoverflow.com/questions/8091519/pbkdf2-function-in-android
+
+        //ENCRYPT
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            //TODO this is where we do every string one after another
+            Log.i("tagplaintext", "plaintext before " + plaintext);
+            //plain text as bytes
+            byte[] plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
+            //cipher
+            byte[] cipherText = cipher.doFinal(plainTextBytes);
+            //cipher text back to string
+            cipherB64Text = Base64.encodeToString(cipherText, Base64.DEFAULT);
+            Log.i("tagciphertext", "cipher after " + cipherB64Text);
+            //String text = readFileAsString("textfile.txt");
+            //String cipherB64TextFormat = "\"" + cipherB64Text.replace("\n", "")+ "\"";//.replace("\r", "");
+
+            //this is specific formatting for messagesMessages()
+            //encoded64texts[i] = "\"" + cipherB64Text.substring(0, 24) + "\"";
+
+
+            //this is general function
+            //encoded64texts[i] = cipherB64Text;
+
+
+        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }
+
+        return cipherB64Text;
     }
 
     /**
@@ -406,11 +509,59 @@ public class Encryptor extends AppCompatActivity {
      * @param toEncrypt
      * @return
      */
-    public static final String md5(final String toEncrypt) {
+    public static final SecretKey bouncyCastleKey(final String toEncrypt) {
         try {
-            final MessageDigest digest = MessageDigest.getInstance("md5");
+            //return sb.toString().toLowerCase();
+            //return bytes;
+
+            //PKSDFSDF
+            //byte[] keyBytesFromStr = sb.getBytes(StandardCharsets.UTF_8);
+            //String algorithmo = "RawByteso";
+            //  String algorithmo = "AES";
+            //  SecretKeySpec key = new SecretKeySpec(bytes, algorithmo);
+
+
+            // Number of PBKDF2 hardening rounds to use. Larger values increase
+            // computation time. You should select a value that causes computation
+            // to take >100ms.
+            final int iterations = 1000;
+            // Generate a 256-bit key
+            final int outputKeyLength = 8;
+            //generate string out of keyphrase
+            char[] keyAsCharArr = toEncrypt.toCharArray();
+            //generate random salt
+            SecureRandom rGen = new SecureRandom();
+            byte[] saltbytes = new byte[16];
+            rGen.nextBytes(saltbytes);
+            System.out.println("salt bytes : " + Arrays.toString(saltbytes));
+            //generate key
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            Log.i("tag_secretKeyFactory", secretKeyFactory.toString());
+            KeySpec keySpec = new PBEKeySpec(keyAsCharArr, saltbytes, iterations, outputKeyLength);
+            SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
+
+            return secretKey;
+        } catch (Exception exc) {
+            //return "Algorithm exception :/ "; // Impossibru!
+            return null;
+        }
+    }
+
+    /**
+     * Algorithm setting
+     *
+     * @param toEncrypt
+     * @return
+     */
+    public static final String generateKey(final String toEncrypt) {
+        try {
+            //final MessageDigest digest = MessageDigest.getInstance("md5");
+            final MessageDigest digest = MessageDigest.getInstance("sha-256");
             digest.update(toEncrypt.getBytes());
             final byte[] bytes = digest.digest();
+
+            final KeyGenerator keygen = KeyGenerator.getInstance("AES");
+
             final StringBuilder sb = new StringBuilder();
             for (int i = 0; i < bytes.length; i++) {
                 sb.append(String.format("%02X", bytes[i]));
@@ -420,6 +571,7 @@ public class Encryptor extends AppCompatActivity {
             return ""; // Impossibru!
         }
     }
+
 
     /**
      * * making String from bytes

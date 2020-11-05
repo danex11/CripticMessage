@@ -21,6 +21,13 @@
         <item name="hintTextColor">@color/colorPrimaryDark</item>
     </style>
 
+    <!-- EditText theme for coded messsage -->
+    <style name="Widget.App.TextCodedLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeColor">@color/text_coded_box_stroke</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+    </style>
+
     <!--
      <item name="hintTextColor">?attr/colorOnSurface</item>
         <item name="colorPrimary">@color/textfield1</item>

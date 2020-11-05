@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--
         <activity
             android:name="pl.op.danex11.stringencoder.Decryptor"
             android:icon="@mipmap/ic_decrypt"
@@ -23,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+-->
 
         <activity
             android:name="pl.op.danex11.stringencoder.Encryptor"

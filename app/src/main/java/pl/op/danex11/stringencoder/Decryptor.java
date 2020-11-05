@@ -400,6 +400,7 @@ public class Decryptor extends AppCompatActivity {
     public static final String md5(final String toEncrypt) {
         try {
             final MessageDigest digest = MessageDigest.getInstance("md5");
+           // final MessageDigest digest = MessageDigest.getInstance("sha-256");
             digest.update(toEncrypt.getBytes());
             final byte[] bytes = digest.digest();
             final StringBuilder sb = new StringBuilder();
