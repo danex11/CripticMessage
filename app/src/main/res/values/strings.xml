@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">SMS Coder/Decoder</string>
+        <string name="app_name">SMS Coder/Decoder</string>
+
+        <string name="Google_sms_policy">SMS and Call Log Permissions
+SMS and Call Log Permissions are regarded as personal and sensitive user data subject to the Personal and Sensitive Information policy, and the following restrictions:
+        Restricted Permission
+Your app manifest requests the Call Log permission group (e.g. READ_CALL_LOG, WRITE_CALL_LOG, PROCESS_OUTGOING_CALLS)
+        Requirement
+It must be actively registered as the default Phone or Assistant handler on the device.
+
+        Restricted Permission
+Your app manifest requests the SMS permission group (e.g. READ_SMS, SEND_SMS, WRITE_SMS, RECEIVE_SMS, RECEIVE_WAP_PUSH, RECEIVE_MMS)
+        Requirement
+It must be actively registered as the default SMS or Assistant handler on the device.
+
+Apps lacking default SMS, Phone, or Assistant handler capability may not declare use of the above permissions in the manifest. This includes placeholder text in the manifest.
+        Additionally, apps must be actively registered as the default SMS, Phone, or Assistant handler before prompting users to accept any of the above permissions and must immediately stop using the permission when they’re no longer the default handler.
+        The permitted uses and exceptions are available on this Help Center page.
+Apps may only use the permission (and any data derived from the permission) to provide approved core app functionality.
+        Core functionality is defined as the main purpose of the app.
+        This may include a set of core features, which must all be prominently documented and promoted in the app’s description. Without the core feature, the app is “broken” or rendered unusable.
+        The transfer, sharing, or licensed use of this data must only be for providing core features or services within the app, and its use may not be extended for any other purpose (e.g., improving other apps or services, advertising, or marketing purposes). You may not use alternative methods (including other permissions, APIs, or third-party sources) to derive data attributed to Call Log or SMS related permissions.</string>
 </resources>

@@ -77,16 +77,6 @@
         app:layout_constraintTop_toBottomOf="@+id/phoneText"
         tools:text="gNIb35w8bR8sjN481QYgrglxkgUPhKfgj" />
 
-    <Button
-        android:id="@+id/sendbutton"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:onClick="Send"
-        android:text="Send"
-        app:layout_constraintBaseline_toBaselineOf="@+id/phoneText"
-        app:layout_constraintEnd_toEndOf="@+id/keyText"
-        app:layout_constraintStart_toEndOf="@+id/resultText" />
-
     <EditText
         android:id="@+id/phoneText"
 
@@ -98,8 +88,6 @@
         android:imeOptions="actionNext"
         android:inputType="phone"
         android:maxLength="9"
-        app:layout_constraintEnd_toStartOf="@+id/sendbutton"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/givenText"
         app:layout_constraintTop_toBottomOf="@+id/keyText" />
 

@@ -15,6 +15,7 @@ import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.telephony.SubscriptionManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -139,6 +140,9 @@ public class Encryptor extends AppCompatActivity {
 
     EditText ed1given, ed2result, ed3phone;
 
+    //todo integrate copy button into coded message textlayout
+    //  https://material.io/develop/android/components/text-fields
+
     /**
      * COPY
      */
@@ -153,104 +157,8 @@ public class Encryptor extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * SMS SENDING
-     */
-    public void Send(View view) {
-        //message
-        ed1given = findViewById(R.id.resultText);
-        String text;
-        text = ed1given.getText().toString();
-        String messageToSend = text;
-        //phone no
 
-        ed3phone = findViewById(R.id.phoneText);
-        String phoneNo;
-        phoneNo = ed3phone.getText().toString();
-        //String number = "+48" + phoneNo;
-        String number = phoneNo;
-        if (number == null) {
-            Toast.makeText(getBaseContext(), "No phone number",
-                    Toast.LENGTH_LONG).show();
-        } else {   //sms sending
-//todo
-            //   PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent("SMS_SENT"), 0);
-            //   PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent("SMS_DELIVERED"), 0);
-//  https://mobiforge.com/design-development/sms-messaging-android
-            //SmsManager.getDefault().sendTextMessage(number, null, messageToSend, sentPI, deliveredPI);
-            if (number.length() != 9) {
-                Toast.makeText(getBaseContext(), "Wrong phone number",
-                        Toast.LENGTH_LONG).show();
-                sendSMS(number, messageToSend);
-            } else {
-                sendSMS(number, messageToSend);
-            }
-            // Toast.makeText(getApplicationContext(), "SMS sended successfully",
-            //  Toast.LENGTH_LONG).show();}
 
-        }
-    }
-
-    //---sends an SMS message to another device---
-    private void sendSMS(String phoneNumber, String message) {
-        String SENT = "SMS_SENT";
-        String DELIVERED = "SMS_DELIVERED";
-
-        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0,
-                new Intent(SENT), 0);
-
-        PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
-                new Intent(DELIVERED), 0);
-
-        //---when the SMS has been sent---
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode()) {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), "SMS sent",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(getBaseContext(), "Generic failure",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(getBaseContext(), "No service",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(getBaseContext(), "Null PDU",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(getBaseContext(), "Radio off",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        }, new IntentFilter(SENT));
-
-        //---when the SMS has been delivered---
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode()) {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), "SMS delivered",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        Toast.makeText(getBaseContext(), "SMS not delivered",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        }, new IntentFilter(DELIVERED));
-
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
-    }
 
 
     /**
@@ -583,5 +491,6 @@ public class Encryptor extends AppCompatActivity {
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
-
 }
+
+

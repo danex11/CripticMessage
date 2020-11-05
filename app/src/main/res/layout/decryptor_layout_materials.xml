@@ -123,18 +123,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/copybutton"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="59dp"
-        android:onClick="Copy"
-        android:text="Copy"
-        app:layout_constraintEnd_toEndOf="@+id/clearbutton"
-        app:layout_constraintStart_toStartOf="@+id/clearbutton"
-        app:layout_constraintTop_toTopOf="@+id/clearbutton" />
-
-    <Button
         android:id="@+id/clearbutton"
         android:layout_width="0dp"
         android:layout_height="50dp"

@@ -11,6 +11,20 @@
 
 
     <!-- input EditText -->
+
+    <Button
+        android:id="@+id/copybutton2"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="Copy"
+        android:text="Copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="168dp" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/givenTextLayout"
         style="@style/Widget.App.TextInputLayout"
@@ -82,9 +96,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sendbutton"
         app:startIconDrawable="@drawable/padlockclosedsmall"
-        app:startIconTint="@color/colorAccent">
+        app:startIconTint="@color/colorAccent"
+        tools:layout_editor_absoluteY="227dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/resultText"
@@ -100,34 +114,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/sendbutton"
-        android:layout_width="160dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:onClick="Send"
-        android:text="Send"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/keyTextLayout" />
-
     <!-- phone EditText -->
-    <EditText
-        android:id="@+id/phoneText"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:ems="9"
-        android:hint="phone no"
-        android:imeOptions="actionNext"
-        android:inputType="phone"
-        android:maxLength="9"
-        android:padding="4dp"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/sendbutton"
-        app:layout_constraintEnd_toStartOf="@+id/sendbutton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/resultTextLayout" />
 
 
     <!--
