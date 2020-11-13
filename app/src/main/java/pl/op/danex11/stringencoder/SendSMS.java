@@ -11,10 +11,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SendSMS(View view) {
-
+public class SendSMS {
+    //View view = this.view;
+    //SendSMS sendsms = new SendSMS(view);//.Send(view, "","");
     boolean nophoneno = false;
     boolean wrongphoneno = false;
+
+    public SendSMS(View view) {
+    }
 
 
     //todo get rid of sms sending to go by Google policy :(

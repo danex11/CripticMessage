@@ -62,43 +62,31 @@
         style="@style/AppCompatEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/padlockclosedsmall"
         android:imeOptions="actionNext"
         android:maxLines="5"
-        android:paddingTop="24dp"
         android:paddingLeft="10dp"
+        android:paddingTop="24dp"
         android:paddingRight="30dp"
         android:paddingBottom="10dp"
         android:scrollbars="vertical"
         android:singleLine="false"
-        app:layout_constraintEnd_toStartOf="@+id/copybutton"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/phoneText"
+        app:layout_constraintTop_toBottomOf="@+id/copybutton"
         tools:text="gNIb35w8bR8sjN481QYgrglxkgUPhKfgj" />
-
-    <EditText
-        android:id="@+id/phoneText"
-
-        android:layout_width="170dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:hint=" phone no"
-        android:imeOptions="actionNext"
-        android:inputType="phone"
-        android:maxLength="9"
-        app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/keyText" />
 
     <Button
         android:id="@+id/copybutton"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="85dp"
+        style="?attr/materialButtonStyle"
+        android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginTop="20dp"
         android:onClick="Copy"
         android:text="Copy"
-        app:layout_constraintBaseline_toBaselineOf="@+id/resultText"
-        app:layout_constraintEnd_toEndOf="@+id/givenText" />
+        app:layout_constraintEnd_toEndOf="@+id/givenText"
+        app:layout_constraintStart_toStartOf="@+id/givenText"
+        app:layout_constraintTop_toBottomOf="@+id/keyText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,11 +69,11 @@
         android:id="@+id/resultlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorAccent"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="result"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/resultText"
         app:layout_constraintTop_toBottomOf="@+id/keyText" />

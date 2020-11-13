@@ -136,6 +136,7 @@ public class Decryptor extends AppCompatActivity {
     /**
      * SEND
      */
+    /*
     public void Send(View view) {
         //message
         ed1given = findViewById(R.id.resultText);
@@ -153,6 +154,8 @@ public class Decryptor extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "SMS sended successfully",
                 Toast.LENGTH_LONG).show();
     }
+
+     */
 
     /**
      * PASTE

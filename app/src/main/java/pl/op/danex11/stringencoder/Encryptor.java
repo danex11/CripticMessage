@@ -51,24 +51,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 //todo reset to new layout/activity with new icon click
 
-//TODO shorten ecnoded string to fixed length  -  I HAVE NOT DONE IT
-// to not exeed one SMS length
-
-//todo SMS sended toast displays always
-
-//todo animate envelope to display flow of actions
-
 //todo max keylength to say 10 characters
 
 //  https://derekreynolds.wordpress.com/2012/06/09/how-to-have-multiple-launcher-icons-in-one-android-apk-install-for-different-activities/
-
 //  https://developer.android.com/reference/android/widget/TextView.html#attr_android:imeOptions
 
-//todo in Encryptor after entering key set focus to phoneTextField, in Decryptor set focus to nothing
-
-//todo disable(hide) phone sending button until message gots coded
-// OR constrain Focused field to keyboard to hide fields below
-// OR set Toast message if coded messagefield is empty
+// todo constrain Focused field to keyboard to hide fields below
+// todo set Toast message if coded messagefield is empty
 
 public class Encryptor extends AppCompatActivity {
     byte[] keyBytesFromStr;
@@ -156,9 +145,6 @@ public class Encryptor extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Text Copied",
                 Toast.LENGTH_SHORT).show();
     }
-
-
-
 
 
     /**
@@ -365,13 +351,14 @@ public class Encryptor extends AppCompatActivity {
         TextView editedTextView = findViewById(R.id.keyText);
         String KeyStrg = editedTextView.getText().toString();
         //Hashed key
-        String hashedKey = generateKey(KeyStrg);
+        SecretKey hashedKey = generateKey(KeyStrg);
         Log.i("tagKey", " Key " + hashedKey);
-        Log.i("tagKey", " Key length " + hashedKey.length());
-        keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
-        String algorithmo = "RawByteso";
-        SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, algorithmo);
-        Log.i("tagKey", " secretKeyspec " + key);
+        //Log.i("tagKey", " Key length " + hashedKey.length());
+        // keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
+        //key from given bytes array
+        //String keyinitalgorithmo = "RawByteso";
+        //SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, keyinitalgorithmo);
+        // Log.i("tagKey", " secretKeyspec " + key);
         //Log.i("tagKey", " secretKeyspec length " + key.);
         //keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
         //Log.i("tagKey", " hashedKeyArrayElementCount " + keyBytesFromStr.length);
@@ -383,7 +370,7 @@ public class Encryptor extends AppCompatActivity {
 
         //ENCRYPT
         try {
-            cipher.init(Cipher.ENCRYPT_MODE, key);
+            cipher.init(Cipher.ENCRYPT_MODE, hashedKey);
             //TODO this is where we do every string one after another
             Log.i("tagplaintext", "plaintext before " + plaintext);
             //plain text as bytes
@@ -410,6 +397,25 @@ public class Encryptor extends AppCompatActivity {
 
         return cipherB64Text;
     }
+
+    /**
+     * Algorithm setting
+     *
+     * @param toEncrypt
+     * @return
+     */
+    public static final SecretKey generateKey(final String toEncrypt) {
+        KeyGenerator keygen = null;
+        try {
+            keygen = KeyGenerator.getInstance("AES");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        SecretKey key = keygen.generateKey();
+        return key;
+
+    }
+
 
     /**
      * Algorithm setting
@@ -454,32 +460,6 @@ public class Encryptor extends AppCompatActivity {
             return null;
         }
     }
-
-    /**
-     * Algorithm setting
-     *
-     * @param toEncrypt
-     * @return
-     */
-    public static final String generateKey(final String toEncrypt) {
-        try {
-            //final MessageDigest digest = MessageDigest.getInstance("md5");
-            final MessageDigest digest = MessageDigest.getInstance("sha-256");
-            digest.update(toEncrypt.getBytes());
-            final byte[] bytes = digest.digest();
-
-            final KeyGenerator keygen = KeyGenerator.getInstance("AES");
-
-            final StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < bytes.length; i++) {
-                sb.append(String.format("%02X", bytes[i]));
-            }
-            return sb.toString().toLowerCase();
-        } catch (Exception exc) {
-            return ""; // Impossibru!
-        }
-    }
-
 
     /**
      * * making String from bytes
