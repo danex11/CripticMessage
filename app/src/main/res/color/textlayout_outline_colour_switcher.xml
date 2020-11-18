@@ -4,7 +4,7 @@
 
 <!-- for style: Widget.App.TextInputLayout at styles>material based styles -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="#cfc" android:state_focused="true" />
-    <item android:color="#ffc" android:state_first="true" />
-    <item android:color="@color/colorPrimaryDark" />
+    <item android:color="#cfc" android:state_first="true" />
+    <item android:color="@color/colorPrimaryDark" android:state_focused="true" />
+    <item android:color="@color/colorAccent" />
 </selector>

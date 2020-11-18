@@ -10,42 +10,59 @@
     android:outlineProvider="bounds">
 
 
-    <!-- input EditText -->
+    <!-- input EditText
+    style="?attr/materialButtonStyle"
+    -->
+
+    <!-- key EditText -->
+
+    <Button
+        android:id="@+id/buttonUsekey"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="UseKey"
+        android:text="use key"
+        app:layout_constraintEnd_toStartOf="@+id/keyTextLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/givenTextLayout"
+        app:layout_constraintTop_toBottomOf="@+id/givenTextLayout"
+        tools:ignore="OnClick" />
+
     <Button
         android:id="@+id/copybutton2"
-        style="?attr/materialButtonStyle"
+        style="@style/Button.Style.Aqua"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
         android:onClick="Copy"
         android:text="Copy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/keyTextLayout" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/givenTextLayout"
-        style="@style/Widget.App.TextCodedLayout"
+        style="@style/EditTextLayout_Green"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:hint="type here"
-        app:counterEnabled="true"
-        app:counterMaxLength="100"
+        android:textColorHint="@color/colorPrimaryDark"
         app:helperText="message"
         app:helperTextEnabled="true"
         app:hintEnabled="true"
-        app:hintTextColor="@color/colorAccent"
-        app:startIconDrawable="@drawable/ic_baseline_lock_open_24"
-        app:startIconTint="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/ic_baseline_lock_open_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/givenText"
@@ -58,16 +75,17 @@
             android:singleLine="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- key EditText -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/keyTextLayout"
-        style="@style/Widget.App.TextCodedLayout"
+        style="@style/EditTextLayout_Green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="key here"
+        android:textColorHint="@color/colorPrimaryDark"
         app:endIconDrawable="@drawable/ic_baseline_vpn_key_24"
         app:endIconMode="custom"
-        app:endIconTint="@color/colorAccent"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
         app:layout_constraintEnd_toEndOf="@+id/givenTextLayout"
         app:layout_constraintTop_toBottomOf="@+id/givenTextLayout">
 
@@ -78,6 +96,8 @@
             android:ems="10"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
+            android:maxLength="20"
+
             android:padding="3dp"
             tools:layout_editor_absoluteX="118dp"
             tools:layout_editor_absoluteY="116dp" />
@@ -87,36 +107,35 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/resultTextLayout"
-        style="@style/Widget.App.TextCodedLayout"
+        style="@style/EditTextLayout_Green"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="16dp"
         android:ems="12"
-        app:counterEnabled="true"
-        app:counterMaxLength="160"
         app:helperText="coded message"
         app:helperTextEnabled="true"
+        app:counterEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/copybutton2"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24"
-        app:startIconTint="@color/colorAccent">
+        app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/resultText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="100dp"
             android:imeOptions="actionNext"
             android:maxLines="1"
             android:scrollbars="vertical"
-            android:singleLine="false"
+            android:singleLine="true"
             app:layout_constraintEnd_toEndOf="@+id/keyText"
             app:layout_constraintTop_toBottomOf="@+id/keyText"></com.google.android.material.textfield.TextInputEditText>
-
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- phone EditText -->
 

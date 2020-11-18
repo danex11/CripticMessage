@@ -5,27 +5,30 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here.
         assign parameters like colors to displayed objects-->
-
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
+        <item name="textInputStyle">@style/EditTextLayout_Green</item>
     </style>
 
 
-    <!-- EditText theme. -->
-    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeWidth">2dp</item>
-        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
-        <item name="hintTextColor">@color/colorPrimaryDark</item>
+    <!-- Button theme. -->
+    <style name="Button.Style.Aqua" parent="Widget.MaterialComponents.Button">
+        <item name="colorPrimary">?attr/colorPrimary</item>
+        <item name="colorOnPrimary">?attr/colorOnPrimary</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        ?attr/colorPrimary
     </style>
+
 
     <!-- EditText theme for coded messsage -->
-    <style name="Widget.App.TextCodedLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="EditTextLayout_Green" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeWidth">2dp</item>
-        <item name="boxStrokeColor">@color/text_coded_box_stroke</item>
-        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="boxStrokeColor">@color/textlayout_outline_colour_switcher</item>
+        <item name="hintTextColor">@color/colorPrimaryDark</item>
+        <item name="startIconTint">@color/colorAccent</item>
+        <item name="endIconTint">@color/colorAccent</item>
     </style>
 
     <!--
@@ -37,7 +40,7 @@
 
     <!-- >>>>>>>>>>>>>Non material styles -->
     <style name="AppCompatEditText" parent="Widget.AppCompat.EditText">
-        <item name="colorControlActivated">@color/coursor</item>
+        <item name="colorControlActivated">@color/cursor</item>
         <item name="android:background">@drawable/edittextoutlined</item>"
     </style>
 

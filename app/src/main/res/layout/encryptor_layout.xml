@@ -7,8 +7,7 @@
     android:fadingEdge="horizontal|vertical"
     android:fadingEdgeLength="10dp"
     android:outlineProvider="bounds"
-    android:background="@color/windowBackground"
-    >
+    android:background="@color/windowBackground">
 
     <!-- input EditText -->
     <EditText
@@ -17,40 +16,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:ems="12"
-        android:padding="10dp"
         android:hint=" type your message ..."
         android:inputType="textMultiLine"
         android:maxLines="5"
+        android:padding="10dp"
         android:scrollbars="vertical"
         android:singleLine="false"
-        app:layout_constraintBottom_toTopOf="@+id/keyText"
+        android:textColorHint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.992" />
+        app:layout_constraintTop_toTopOf="parent" />
     <!-- key EditText -->
-    <EditText
-        android:id="@+id/keyText"
-        style="@style/AppCompatEditText"
-        android:background="@drawable/keysmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
-        android:padding="3dp"
-        android:ems="6"
-        android:hint=" key here"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        android:maxLength="16"
-        app:layout_constraintEnd_toEndOf="@+id/givenText"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
 
 
     <!-- result Text -->
@@ -58,23 +37,71 @@
     <!-- phone Edit Text -->
 
     <EditText
+        android:id="@+id/resultlabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="coded message"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/copybutton"
+        app:layout_constraintStart_toStartOf="@+id/resultText" />
+
+    <EditText
+        android:id="@+id/keyText"
+        style="@style/AppCompatEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/keysmall"
+        android:ems="6"
+        android:hint=" key here"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:maxLength="16"
+        android:maxLines="1"
+        android:padding="3dp"
+        android:textColorHint="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="@+id/givenText"
+        app:layout_constraintTop_toBottomOf="@+id/givenText"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/buttonUsekey2"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:onClick="UseKey"
+        android:text="use key"
+        app:layout_constraintEnd_toStartOf="@+id/keyText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/givenText"
+        tools:ignore="OnClick" />
+
+    <EditText
         android:id="@+id/resultText"
         style="@style/AppCompatEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/padlockclosedsmall"
         android:imeOptions="actionNext"
         android:maxLines="5"
-        android:paddingLeft="10dp"
-        android:paddingTop="24dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="75dp"
         android:paddingRight="30dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="14dp"
         android:scrollbars="vertical"
         android:singleLine="false"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/copybutton"
+        app:layout_constraintTop_toBottomOf="@+id/keyText"
         tools:text="gNIb35w8bR8sjN481QYgrglxkgUPhKfgj" />
 
     <Button
@@ -82,11 +109,14 @@
         style="?attr/materialButtonStyle"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
         android:onClick="Copy"
         android:text="Copy"
-        app:layout_constraintEnd_toEndOf="@+id/givenText"
+        app:layout_constraintEnd_toEndOf="@+id/resultText"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/keyText" />
+        app:layout_constraintTop_toTopOf="@+id/resultText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,5 @@
 <resources>
-        <string name="app_name">SMS Coder/Decoder</string>
+        <string name="app_name">Coder/Decoder</string>
 
         <string name="Google_sms_policy">SMS and Call Log Permissions
 SMS and Call Log Permissions are regarded as personal and sensitive user data subject to the Personal and Sensitive Information policy, and the following restrictions:

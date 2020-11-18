@@ -4,30 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/windowBackground"
     android:fadingEdge="horizontal|vertical"
     android:fadingEdgeLength="10dp"
-    android:outlineProvider="bounds"
-    android:background="@color/windowBackground">
+    android:outlineProvider="bounds">
 
     <!-- input EditText -->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/givenTextLayout"
-        style="@style/Widget.App.TextInputLayout"
+        style="@style/EditTextLayout_Green"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="click paste"
+        app:counterEnabled="true"
+        app:counterMaxLength="160"
         app:helperText="coded message"
         app:helperTextEnabled="true"
         app:hintEnabled="true"
-        app:counterEnabled="true"
-        app:counterMaxLength="160"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24"
-        app:startIconTint="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pastebutton">
+        app:layout_constraintTop_toBottomOf="@+id/pastebutton"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/givenText"
@@ -44,20 +44,20 @@
     <!-- key EditText -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/keyTextLayout"
-        style="@style/Widget.App.TextInputLayout"
+        style="@style/EditTextLayout_Green"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="200dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="key here"
-        app:helperText="your secred word"
-        app:helperTextEnabled="true"
+        android:textColorHint="@color/colorPrimaryDark"
         app:counterEnabled="true"
         app:counterMaxLength="16"
         app:endIconDrawable="@drawable/ic_baseline_vpn_key_24"
         app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
+        app:helperText="your secret word"
+        app:helperTextEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/givenTextLayout"
@@ -70,9 +70,9 @@
             android:id="@+id/keyText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="3dp"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
+            android:padding="3dp"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -80,7 +80,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/resultTextLayout"
-        style="@style/Widget.App.TextInputLayout"
+        style="@style/EditTextLayout_Green"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -90,12 +90,11 @@
         app:counterMaxLength="160"
         app:helperText="real message"
         app:helperTextEnabled="true"
-        app:startIconDrawable="@drawable/ic_baseline_lock_open_24"
-        app:startIconTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/keyTextLayout">
+        app:layout_constraintTop_toBottomOf="@+id/keyTextLayout"
+        app:startIconDrawable="@drawable/ic_baseline_lock_open_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/resultText"
@@ -112,8 +111,9 @@
 
     <Button
         android:id="@+id/pastebutton"
+        style="@style/Button.Style.Aqua"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -127,11 +127,25 @@
     <Button
         android:id="@+id/clearbutton"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:onClick="ClearOnButton"
         android:text="Clear"
         app:layout_constraintEnd_toEndOf="@+id/keyTextLayout"
         app:layout_constraintTop_toBottomOf="@+id/resultTextLayout"
+        tools:ignore="OnClick" />
+
+    <Button
+        android:id="@+id/buttonUsekey"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="UseKey"
+        android:text="use key"
+        app:layout_constraintEnd_toStartOf="@+id/keyTextLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/givenTextLayout"
+        app:layout_constraintTop_toBottomOf="@+id/givenTextLayout"
         tools:ignore="OnClick" />
 
 

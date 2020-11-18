@@ -16,22 +16,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <activity
-            android:name="pl.op.danex11.stringencoder.Decryptor"
-            android:icon="@mipmap/ic_decrypt"
-            android:label="SMS Decoder">
+            android:name="pl.op.danex11.stringencoder.Encryptor"
+            android:icon="@mipmap/ic_encrypt"
+            android:label="Coder"
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-
         <activity
-            android:name="pl.op.danex11.stringencoder.Encryptor"
-            android:icon="@mipmap/ic_encrypt"
-            android:label="SMS Coder">
+            android:name="pl.op.danex11.stringencoder.Decryptor"
+            android:icon="@mipmap/ic_decrypt"
+            android:label="Decoder">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

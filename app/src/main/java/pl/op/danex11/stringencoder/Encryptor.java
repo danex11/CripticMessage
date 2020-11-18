@@ -1,22 +1,12 @@
 package pl.op.danex11.stringencoder;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.telephony.SmsManager;
-import android.telephony.SubscriptionManager;
 import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,20 +14,17 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
-//import java.util.Base64;
-import android.util.Base64;
-import android.widget.Toast;
-
-import org.bouncycastle.jcajce.provider.symmetric.AES;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -47,7 +34,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
+
+//import java.util.Base64;
 
 //todo reset to new layout/activity with new icon click
 
@@ -69,28 +57,35 @@ public class Encryptor extends AppCompatActivity {
     ClipboardManager myClipboard;
 
 
+    EditText givenText;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (android.os.Build.VERSION.SDK_INT >= 26) {
             setContentView(R.layout.encryptor_layout_materials);
+            // >=23
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " >= 26");
         } else {
             setContentView(R.layout.encryptor_layout);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " < 26");
         }
 
+        /*
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             //ask for permission for sending SMS
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
         } else {
             // do something for phones running an SDK before
         }
-        super.onCreate(savedInstanceState);
+         */
+
         //  LAYOUT  LAYOUT  LAYOUT
         //copy and paste -ing
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-        final EditText givenText;
         givenText = findViewById(R.id.givenText);
         givenText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         givenText.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -98,7 +93,7 @@ public class Encryptor extends AppCompatActivity {
         //        //reaction to specific action on this view  -  keyboard "Enter" reaction
         final EditText editKey;
         editKey = (EditText) findViewById(R.id.keyText);
-        //set passworh hint font to default - it has mambojumboed
+        //set password hint font to default - it has mambojumboed
         editKey.setTypeface(Typeface.DEFAULT);
         //set behaviour for keyboard on keyText
         editKey
@@ -112,7 +107,7 @@ public class Encryptor extends AppCompatActivity {
                             //todo
                             try {
                                 setViews(findViewById(R.id.keyText));
-                            } catch (IOException | NoSuchAlgorithmException e) {
+                            } catch (NoSuchAlgorithmException e) {
                                 e.printStackTrace();
                             }
                             ClearEditText(givenText);
@@ -132,6 +127,23 @@ public class Encryptor extends AppCompatActivity {
     //todo integrate copy button into coded message textlayout
     //  https://material.io/develop/android/components/text-fields
 
+
+    /**
+     * USE KEY
+     *
+     * @param view
+     */
+    public void UseKey(View view) {
+        try {
+            setViews(findViewById(R.id.keyText));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        //clear plain message
+        ClearEditText(givenText);
+    }
+
+
     /**
      * COPY
      */
@@ -142,8 +154,13 @@ public class Encryptor extends AppCompatActivity {
         ClipData myClip;
         myClip = ClipData.newPlainText("text", text);
         myClipboard.setPrimaryClip(myClip);
-        Toast.makeText(getApplicationContext(), "Text Copied",
-                Toast.LENGTH_SHORT).show();
+        if (text.length() > 0)
+            Toast.makeText(getApplicationContext(), "Coded Message Copied",
+                    Toast.LENGTH_SHORT).show();
+        else {
+            Toast.makeText(getApplicationContext(), "there is nothing to copy",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -267,7 +284,7 @@ public class Encryptor extends AppCompatActivity {
      * @param view
      * @throws IOException
      */
-    public void setViews(View view) throws IOException, NoSuchAlgorithmException {
+    public void setViews(View view) throws NoSuchAlgorithmException {
         //>> for String
         //Get text from message textfield
         TextView givenTextView = findViewById(R.id.givenText);
@@ -288,7 +305,7 @@ public class Encryptor extends AppCompatActivity {
      * @param plaintext
      * @return
      */
-    public String En_text(String plaintext) throws NoSuchAlgorithmException {
+    public String En_text(String plaintext) {
         //"AES/ECB/PKCS5Padding"
         String algorithm = "AES/ECB/PKCS5Padding";
         Cipher cipher = null;
