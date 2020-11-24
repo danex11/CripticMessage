@@ -7,8 +7,10 @@
     android:fadingEdge="horizontal|vertical"
     android:fadingEdgeLength="10dp"
     android:outlineProvider="bounds"
-    android:background="@color/windowBackground">
+    android:background="@drawable/backrepeatopen">
 
+
+    <!--  android:background="@color/windowBackground" -->
     <!-- input EditText -->
 
 
@@ -21,6 +23,7 @@
 
     <Button
         android:id="@+id/buttonUsekey3"
+        style="@style/AppCompatButton"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
@@ -85,11 +88,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorSecondary"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="real message"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorSecondary"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/resultText"
         app:layout_constraintTop_toBottomOf="@+id/keyText" />
@@ -123,6 +126,7 @@
 
     <Button
         android:id="@+id/clearbutton"
+        style="@style/AppCompatButton"
         android:layout_width="85dp"
         android:layout_height="50dp"
         android:onClick="ClearOnButton"
@@ -135,6 +139,7 @@
 
     <Button
         android:id="@+id/pastebutton"
+        style="@style/AppCompatButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

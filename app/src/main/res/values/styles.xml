@@ -7,18 +7,20 @@
         assign parameters like colors to displayed objects-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorSecondary</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="textInputStyle">@style/EditTextLayout_Green</item>
+        <item name="android:textColorPrimary">@color/colorSecondary</item>
     </style>
 
 
     <!-- Button theme. -->
-    <style name="Button.Style.Aqua" parent="Widget.MaterialComponents.Button">
-        <item name="colorPrimary">?attr/colorPrimary</item>
+    <style name="Button.Style.Aqua" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorPrimary">@color/colorPrimary</item>
+
         <item name="colorOnPrimary">?attr/colorOnPrimary</item>
         <item name="backgroundTint">?attr/colorPrimary</item>
-        ?attr/colorPrimary
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
 
@@ -27,8 +29,9 @@
         <item name="boxStrokeWidth">2dp</item>
         <item name="boxStrokeColor">@color/textlayout_outline_colour_switcher</item>
         <item name="hintTextColor">@color/colorPrimaryDark</item>
-        <item name="startIconTint">@color/colorAccent</item>
-        <item name="endIconTint">@color/colorAccent</item>
+        <item name="startIconTint">@color/colorSecondary</item>
+        <item name="endIconTint">@color/colorSecondary</item>
+        <item name="android:textColor">@color/colorSecondary</item>
     </style>
 
     <!--
@@ -42,6 +45,10 @@
     <style name="AppCompatEditText" parent="Widget.AppCompat.EditText">
         <item name="colorControlActivated">@color/cursor</item>
         <item name="android:background">@drawable/edittextoutlined</item>"
+    </style>
+
+    <style name="AppCompatButton" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

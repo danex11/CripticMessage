@@ -18,12 +18,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
 import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
@@ -32,47 +30,38 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
-//import java.util.Base64;
+/**
+ *
+ */
+public class DecryptorRedo extends AppCompatActivity {
 
-//todo reset to new layout/activity with new icon click
-
-//todo max keylength to say 10 characters
-
-//  https://derekreynolds.wordpress.com/2012/06/09/how-to-have-multiple-launcher-icons-in-one-android-apk-install-for-different-activities/
-//  https://developer.android.com/reference/android/widget/TextView.html#attr_android:imeOptions
-
-// todo constrain Focused field to keyboard to hide fields below
-// todo set Toast message if coded messagefield is empty
-
-public class Encryptor extends AppCompatActivity {
     byte[] keyBytesFromStr;
     String cipherB64Text;
-    String encodedSourceText;
+    String[] encodedSourceText;
     String[] decodedText;
 
     //copy and paste -ing
     ClipboardManager myClipboard;
 
 
-    EditText givenText;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //  LAYOUT  LAYOUT  LAYOUT
         if (android.os.Build.VERSION.SDK_INT >= 26) {
-            setContentView(R.layout.encryptor_layout_materials);
+            setContentView(R.layout.decryptor_layout_materials);
             // >=23
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " >= 26");
         } else {
-            setContentView(R.layout.encryptor_layout);
+            setContentView(R.layout.decryptor_layout);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " < 26");
         }
 
+
+        //  SMS PERMISSION DIALOG
         /*
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             //ask for permission for sending SMS
@@ -82,20 +71,27 @@ public class Encryptor extends AppCompatActivity {
         }
          */
 
-        //  LAYOUT  LAYOUT  LAYOUT
         //copy and paste -ing
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
+
+        //InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        // inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+        //given text winding and keyboard behaviour
+        final EditText givenText;
         givenText = findViewById(R.id.givenText);
         givenText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         givenText.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
-        //        //reaction to specific action on this view  -  keyboard "Enter" reaction
+        //reaction to specific action on this view -  keyboard "Enter" reaction
         final EditText editKey;
         editKey = (EditText) findViewById(R.id.keyText);
         //set password hint font to default - it has mambojumboed
         editKey.setTypeface(Typeface.DEFAULT);
         //set behaviour for keyboard on keyText
+        //action on keyboard confirm
         editKey
                 .setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
@@ -105,15 +101,12 @@ public class Encryptor extends AppCompatActivity {
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
                             // handle action here
                             //todo
-                            try {
-                                setViews(findViewById(R.id.keyText));
-                            } catch (NoSuchAlgorithmException e) {
-                                e.printStackTrace();
-                            }
-                            ClearEditText(givenText);
                             //hide keyboard
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(editKey.getWindowToken(), 0);
+                            //action
+                            //decode_array(findViewById(R.id.keyText));
+                            ClearEditText(givenText);
                             handled = true;
                         }
                         return handled;
@@ -124,15 +117,76 @@ public class Encryptor extends AppCompatActivity {
 
     EditText ed1given, ed2result;
 
-    //todo integrate copy button into coded message textlayout
-    //  https://material.io/develop/android/components/text-fields
 
+    /**
+     * USE KEY
+     *
+     * @param view
+     */
+
+    public void UseKey(View view) {
+        try {
+            setViews(findViewById(R.id.keyText));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        //clear plain message
+        //ClearEditText(givenText);
+    }
+
+
+    /**
+     * COPY
+     */
+    public void Copy(View view) {
+        ed1given = findViewById(R.id.resultText);
+        String text;
+        text = ed1given.getText().toString();
+        ClipData myClip;
+        myClip = ClipData.newPlainText("text", text);
+        myClipboard.setPrimaryClip(myClip);
+        Toast.makeText(getApplicationContext(), "Text Copied",
+                Toast.LENGTH_SHORT).show();
+    }
+
+
+    /**
+     * PASTE
+     */
+    public void Paste(View view) {
+
+        ed2result = findViewById(R.id.givenText);
+        ClipData abc = myClipboard.getPrimaryClip();
+        ClipData.Item item = abc.getItemAt(0);
+        String text = item.getText().toString();
+        ed2result.setText(text);
+        Toast.makeText(getApplicationContext(), "Text Pasted",
+                Toast.LENGTH_SHORT).show();
+
+    }
+
+    /**
+     * CLEAR
+     */
+    public void ClearEditText(EditText view) {
+        //ed2result = findViewById(R.id.givenText);
+        // ed2result.setText("");
+        view.setText("");
+    }
+
+    public void ClearOnButton() {
+        ed2result = findViewById(R.id.resultText);
+        ed2result.setText("");
+        ed1given.setText("");
+    }
+
+    String deencodedSourceText;
 
     /**
      * * this is for working with arrays of strings
      *
      * @param view
-     * @throws IOException
+     * @throws
      */
     public void setViews(View view) throws NoSuchAlgorithmException {
         //>> for String
@@ -142,32 +196,93 @@ public class Encryptor extends AppCompatActivity {
         String givenTextStrg = "PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt into.";
 
         //THERE
-        encodedSourceText = En_text(givenTextStrg);
+        deencodedSourceText = DeEn_text(givenTextStrg);
 
         TextView resultTextView = findViewById(R.id.resultText);
-        resultTextView.setText(encodedSourceText);
+        resultTextView.setText(deencodedSourceText);
     }
+
 
     /**
-     * USE KEY
+     * Decrypting method
      *
-     * @param view
+     * @param ciphertext
+     * @return
      */
-    public void UseKey(View view) {
+    public String[] De_text(String[] ciphertext) {
+        Cipher cipher = null;
+        String[] decodedTexts = new String[ciphertext.length];
+
+
+        //Typed key
+        TextView editedTextView = findViewById(R.id.keyText);
+        String KeyStrg = editedTextView.getText().toString();
+        //Hash key
+        String hashedKey = md5(KeyStrg);
+        Log.i("tag_hashedKey", hashedKey);
+        keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
+
+
         try {
-            setViews(findViewById(R.id.keyText));
-        } catch (NoSuchAlgorithmException e) {
+            cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            //  String algorithmo = "RawByteso";
+            // SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, algorithmo);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            //temp placeholder since decodedTexts has no value yet, and might not get any value if deciphering fails
+            decodedTexts[0] = "zero";
             e.printStackTrace();
         }
-        //clear plain message
-        ClearEditText(givenText);
+
+        String algorithmo = "RawByteso";
+        SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, algorithmo);
+
+
+        try {
+            cipher.init(Cipher.DECRYPT_MODE, key);
+
+
+            for (int i = 0; i < ciphertext.length; i++) {
+                //<<@ciphertext is a value we store as a Base64 string
+                byte[] cipherText = Base64.decode(ciphertext[i].getBytes(), Base64.DEFAULT);
+                byte[] decipheredText = cipher.doFinal(cipherText);
+                String decipheredTextStr = decodeUTF8(decipheredText);
+                decodedTexts[i] = decipheredTextStr;
+            }
+
+
+        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            //temp placeholder since decodedTexts has no value yet, and might not get any value if deciphering fails
+            decodedTexts[0] = "¯\\_(ツ)_/¯";// ( ఠ ͟ʖ ఠ) ";
+            e.printStackTrace();
+        }
+
+        return decodedTexts;
     }
 
-    public void ClearEditText(EditText view) {
-        //ed2result = findViewById(R.id.givenText);
-        // ed2result.setText("");
-        view.setText("");
+
+    /**
+     * Algorithm setting
+     *
+     * @param toEncrypt
+     * @return
+     */
+    public static final String md5(final String toEncrypt) {
+        try {
+            final MessageDigest digest = MessageDigest.getInstance("md5");
+            // final MessageDigest digest = MessageDigest.getInstance("sha-256");
+            digest.update(toEncrypt.getBytes());
+            final byte[] bytes = digest.digest();
+            final StringBuilder sb = new StringBuilder();
+            //for (int i = 0; i < bytes.length; i++) {sb.append(String.format("%02X", bytes[i]));   }
+            for (byte aByte : bytes) {
+                sb.append(String.format("%02X", aByte));
+            }
+            return sb.toString().toLowerCase();
+        } catch (Exception exc) {
+            return ""; // Impossibru!
+        }
     }
+
 
     /**
      * Encrypting method
@@ -175,7 +290,7 @@ public class Encryptor extends AppCompatActivity {
      * @param plaintext
      * @return
      */
-    public String En_text(String plaintext) {
+    public String DeEn_text(String plaintext) {
         //"AES/ECB/PKCS5Padding"
         String algorithm = "AES/ECB/PKCS5Padding";
         Cipher cipher = null;
@@ -257,11 +372,12 @@ public class Encryptor extends AppCompatActivity {
 
         //ENCRYPT
         try {
-            cipher.init(Cipher.ENCRYPT_MODE, hashedKey);
+            cipher.init(Cipher.DECRYPT_MODE, hashedKey);
             //TODO this is where we do every string one after another
             Log.i("tagplaintext", "plaintext before " + plaintext);
             //plain text as bytes
             byte[] plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
+            //TODO javax.crypto.IllegalBlockSizeException: error:1e06b07b:Cipher functions:EVP_DecryptFinal_ex:WRONG_FINAL_BLOCK_LENGTH
             //cipher
             byte[] cipherText = cipher.doFinal(plainTextBytes);
             //cipher text back to string
@@ -303,27 +419,8 @@ public class Encryptor extends AppCompatActivity {
 
     }
 
-    /**
-     * COPY
-     */
-    public void Copy(View view) {
-        ed1given = findViewById(R.id.resultText);
-        String text;
-        text = ed1given.getText().toString();
-        ClipData myClip;
-        myClip = ClipData.newPlainText("text", text);
-        myClipboard.setPrimaryClip(myClip);
-        if (text.length() > 0)
-            Toast.makeText(getApplicationContext(), "Coded Message Copied",
-                    Toast.LENGTH_SHORT).show();
-        else {
-            Toast.makeText(getApplicationContext(), "there is nothing to copy",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
 
-
-//
+    //
     //
     //
     /**
@@ -334,146 +431,116 @@ public class Encryptor extends AppCompatActivity {
     //////////////UNUSED METHODS///////////////////vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
     /**
-     * CLEAR
-     */
-    public void Clear(View view) {
-        ed2result = findViewById(R.id.givenText);
-        ed2result.setText("");
-    }
-
-    /**
-     * PASTE
-     */
-    public void Paste(View view) {
-
-        ed2result = findViewById(R.id.givenText);
-        ClipData abc = myClipboard.getPrimaryClip();
-        ClipData.Item item = abc.getItemAt(0);
-        String text = item.getText().toString();
-        ed2result.setText(text);
-        Toast.makeText(getApplicationContext(), "Text Pasted",
-                Toast.LENGTH_SHORT).show();
-
-    }
-
-    /**
-     * Algorithm setting
+     * * this is for working with arrays of strings
      *
-     * @param toEncrypt
+     * @param view
+     * @throws
+     */
+    public void encode_array(View view) {
+        //>> for String
+        //put hardcoded array here
+        String[] userIdFirebaseArr = {""};
+        // userIdFirebaseArr[0]= "StringToEncode";
+
+        //Get text from message textfield
+        TextView givenTextView = findViewById(R.id.givenText);
+        String givenTextStrg = givenTextView.getText().toString();
+        userIdFirebaseArr[0] = givenTextStrg;
+
+        //String userIdFirebase = userIdFirebaseArr[0];
+        Log.i("En_tagplaintext", Arrays.toString(userIdFirebaseArr));
+        encodedSourceText = En_text(userIdFirebaseArr);
+/*
+        //>> for String[]
+        // array of messages
+        Log.i("En_tagplaintext", Arrays.toString(messagesMessages()));
+         encodedSourceText = En_text(messagesMessages());
+
+//Logcat is not capable of displaying all records, cuts it halfway
+        Log.i("En_tagcipheredtext", Arrays.toString(encodedSourceText));
+        //Log.i("En_tagcipheredtext",String.valueOf(encodedSourceText ));
+*/
+/*
+        //>> writing to file
+        writeToFile(Arrays.toString(encodedSourceText));
+
+        TextView resultTextView = findViewById(R.id.resultText);
+        resultTextView.setText(encodedSourceText[0]);
+        //String resultTextStrg = givenTextView.getText().toString();
+ */
+    }
+
+    /**
+     * Encrypting method
+     *
+     * @param plaintext
      * @return
      */
-    public static final SecretKey bouncyCastleKey(final String toEncrypt) {
-        try {
-            //return sb.toString().toLowerCase();
-            //return bytes;
-
-            //PKSDFSDF
-            //byte[] keyBytesFromStr = sb.getBytes(StandardCharsets.UTF_8);
-            //String algorithmo = "RawByteso";
-            //  String algorithmo = "AES";
-            //  SecretKeySpec key = new SecretKeySpec(bytes, algorithmo);
-
-
-            // Number of PBKDF2 hardening rounds to use. Larger values increase
-            // computation time. You should select a value that causes computation
-            // to take >100ms.
-            final int iterations = 1000;
-            // Generate a 256-bit key
-            final int outputKeyLength = 8;
-            //generate string out of keyphrase
-            char[] keyAsCharArr = toEncrypt.toCharArray();
-            //generate random salt
-            SecureRandom rGen = new SecureRandom();
-            byte[] saltbytes = new byte[16];
-            rGen.nextBytes(saltbytes);
-            System.out.println("salt bytes : " + Arrays.toString(saltbytes));
-            //generate key
-            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            Log.i("tag_secretKeyFactory", secretKeyFactory.toString());
-            KeySpec keySpec = new PBEKeySpec(keyAsCharArr, saltbytes, iterations, outputKeyLength);
-            SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
-
-            return secretKey;
-        } catch (Exception exc) {
-            //return "Algorithm exception :/ "; // Impossibru!
-            return null;
-        }
-    }
-
-    /**
-     * * making String from bytes
-     *
-     * @param bytes
-     * @return
-     */
-    String decodeUTF8(byte[] bytes) {
-        return new String(bytes, StandardCharsets.UTF_8);
-    }
-
-    /**
-     * Decrypting method
-     *
-     * @param ciphertext
-     * @return
-     */
-    public String[] De_text(String[] ciphertext) {
-        /*
+    public String[] En_text(String[] plaintext) {
         Cipher cipher = null;
-        String[] decodedTexts = new String[ciphertext.length];
-
+        String[] encoded64texts = new String[plaintext.length];
+        Log.i("tag_array.length", String.format("tag_plaintextlength = %d", plaintext.length));
+        try {
+            //AdvancedEncodingStandard ElectronicCodeBook
+            //PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt, if the data does not align with a 64 bit or 128 bit block size boundary.
+            //AES supported key sizes?
+            cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            e.printStackTrace();
+        }
 
         //Typed key
         TextView editedTextView = findViewById(R.id.keyText);
         String KeyStrg = editedTextView.getText().toString();
         //Hash key
-        String hashedKey = formatKey(KeyStrg);
+        String hashedKey = md5(KeyStrg);
         Log.i("tag_hashedKey", hashedKey);
         keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
 
-
-        try {
-            cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            //  String algorithmo = "RawByteso";
-            // SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, algorithmo);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            //temp placeholder since decodedTexts has no value yet, and might not get any value if deciphering fails
-            decodedTexts[0] = "zero";
-            e.printStackTrace();
-        }
+        //Password-Based Key Derivation Function 2 is a key stretching algorithm
+        //adding bytes to passphase to make a key out of it
+        //https://stackoverflow.com/questions/29354133/how-to-fix-invalid-aes-key-length
+        //https://stackoverflow.com/questions/8091519/pbkdf2-function-in-android
 
         String algorithmo = "RawByteso";
         SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, algorithmo);
 
-
+        //ENCRYPT array in loop
         try {
-            cipher.init(Cipher.DECRYPT_MODE, key);
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+
+            //TODO this is where we do every string one after another
+            for (int i = 0; i < plaintext.length; i++) {
+                byte[] plainTextBytes = plaintext[i].getBytes(StandardCharsets.UTF_8);
+//text as bytes
+                byte[] cipherText = cipher.doFinal(plainTextBytes);
+//text as string
+                cipherB64Text = Base64.encodeToString(cipherText, Base64.DEFAULT);
+
+                //String text = readFileAsString("textfile.txt");
+                //String cipherB64TextFormat = "\"" + cipherB64Text.replace("\n", "")+ "\"";//.replace("\r", "");
+
+//this is specyfic formatting for messagesMessages()
+                //encoded64texts[i] = "\"" + cipherB64Text.substring(0, 24) + "\"";
+                encoded64texts[i] = cipherB64Text;
 
 
-            for (int i = 0; i < ciphertext.length; i++) {
-                //<<@ciphertext is a value we store as a Base64 string
-                byte[] cipherText = Base64.decode(ciphertext[i].getBytes(), Base64.DEFAULT);
-                byte[] decipheredText = cipher.doFinal(cipherText);
-                String decipheredTextStr = decodeUTF8(decipheredText);
-                decodedTexts[i] = decipheredTextStr;
+                //this is general function
+                //encoded64texts[i] = cipherB64Text;
             }
 
 
         } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            //temp placeholder since decodedTexts has no value yet, and might not get any value if deciphering fails
-            decodedTexts[0] = "¯\\_(ツ)_/¯";// ( ఠ ͟ʖ ఠ) ";
             e.printStackTrace();
         }
 
-        return decodedTexts;
-         */
-        String[] empty = new String[0];
-        return empty;
+        return encoded64texts;
     }
 
     /**
      * * this is for working with arrays of strings
      *
-     * @param view
+     * @
      */
     public void decode_array(View view) {
         //>> for String
@@ -493,6 +560,33 @@ public class Encryptor extends AppCompatActivity {
 
     }
 
+    /**
+     * * making String from bytes
+     *
+     * @param bytes
+     * @return
+     */
+    String decodeUTF8(byte[] bytes) {
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+/*
+    private void writeToFile(String content) {
+        try {
+            File path = getApplicationContext().getExternalFilesDir(null); //Environment.getExternalStorageDirectory() + "/test.txt";
+            File file = new File(path, "test.txt");
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter writer = new FileWriter(file);
+            writer.append(content);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            Log.e("tag", "not written", e);
+        }
+    }
+ */
 }
 
 

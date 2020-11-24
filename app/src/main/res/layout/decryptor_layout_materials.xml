@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/windowBackground"
+    android:background="@drawable/backrepeatopen"
     android:fadingEdge="horizontal|vertical"
     android:fadingEdgeLength="10dp"
     android:outlineProvider="bounds">
@@ -126,6 +126,7 @@
 
     <Button
         android:id="@+id/clearbutton"
+        style="@style/Button.Style.Aqua"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:onClick="ClearOnButton"
@@ -136,6 +137,7 @@
 
     <Button
         android:id="@+id/buttonUsekey"
+        style="@style/Button.Style.Aqua"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="6dp"

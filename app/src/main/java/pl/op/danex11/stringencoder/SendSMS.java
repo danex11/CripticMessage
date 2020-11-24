@@ -131,3 +131,23 @@ public class SendSMS {
          */
     }
 }
+    /*
+    public void Send(View view) {
+        //message
+        ed1given = findViewById(R.id.resultText);
+        String text;
+        text = ed1given.getText().toString();
+        String messageToSend = text;
+        //phone no
+
+        ed3phone = findViewById(R.id.phoneText);
+        String phoneNo;
+        phoneNo = ed3phone.getText().toString();
+        String number = "+48" + phoneNo;
+        //sending
+        SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
+        Toast.makeText(getApplicationContext(), "SMS sended successfully",
+                Toast.LENGTH_LONG).show();
+    }
+
+     */

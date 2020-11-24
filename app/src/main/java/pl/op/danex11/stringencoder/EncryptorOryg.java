@@ -1,12 +1,21 @@
 package pl.op.danex11.stringencoder;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.Manifest;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.InputType;
-import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,15 +23,18 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+//import java.util.Base64;
+import android.util.Base64;
+import android.widget.Toast;
+
+import pl.op.danex11.stringencoder.R;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -30,11 +42,28 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- *
- */
-public class Decryptor extends AppCompatActivity {
+//todo reset to new layout/activity with new icon click
 
+//TODO shorten ecnoded string to fixed length  -  I HAVE NOT DONE IT
+// to not exeed one SMS length
+
+//todo SMS sended toast displays always
+
+//todo animate envelope to display flow of actions
+
+//todo max keylength to say 10 characters
+
+//  https://derekreynolds.wordpress.com/2012/06/09/how-to-have-multiple-launcher-icons-in-one-android-apk-install-for-different-activities/
+
+//  https://developer.android.com/reference/android/widget/TextView.html#attr_android:imeOptions
+
+//todo in Encryptor after entering key set focus to phoneTextField, in Decryptor set focus to nothing
+
+//todo disable(hide) phone sending button until message gots coded
+// OR constrain Focused field to keyboard to hide fields below
+// OR set Toast message if coded messagefield is empty
+
+public class EncryptorOryg extends AppCompatActivity {
     byte[] keyBytesFromStr;
     String cipherB64Text;
     String[] encodedSourceText;
@@ -47,49 +76,35 @@ public class Decryptor extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //  LAYOUT  LAYOUT  LAYOUT
         if (android.os.Build.VERSION.SDK_INT >= 26) {
-            setContentView(R.layout.decryptor_layout_materials);
-            // >=23
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            setContentView(R.layout.encryptor_layout_materials);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " >= 26");
         } else {
-            setContentView(R.layout.decryptor_layout);
+            setContentView(R.layout.encryptor_layout);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " < 26");
         }
 
-
-        //  SMS PERMISSION DIALOG
-        /*
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             //ask for permission for sending SMS
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
         } else {
             // do something for phones running an SDK before
         }
-         */
-
+        //  LAYOUT  LAYOUT  LAYOUT
         //copy and paste -ing
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-
-        //InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        // inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-
-
-        //given text winding and keyboard behaviour
         final EditText givenText;
         givenText = findViewById(R.id.givenText);
         givenText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         givenText.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
-        //reaction to specific action on this view -  keyboard "Enter" reaction
+        //        //reaction to specific action on this view  -  keyboard "Enter" reaction
         final EditText editKey;
         editKey = (EditText) findViewById(R.id.keyText);
-        //set password hint font to default - it has mambojumboed
+        //set passworh hint font to default - it has mambojumboed
         editKey.setTypeface(Typeface.DEFAULT);
         //set behaviour for keyboard on keyText
-        //action on keyboard confirm
         editKey
                 .setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
@@ -99,12 +114,15 @@ public class Decryptor extends AppCompatActivity {
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
                             // handle action here
                             //todo
+                            try {
+                                encode_array(findViewById(R.id.keyText));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            ClearEditText(givenText);
                             //hide keyboard
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(editKey.getWindowToken(), 0);
-                            //action
-                            decode_array(findViewById(R.id.keyText));
-                            ClearEditText(givenText);
                             handled = true;
                         }
                         return handled;
@@ -114,24 +132,6 @@ public class Decryptor extends AppCompatActivity {
     }
 
     EditText ed1given, ed2result, ed3phone;
-
-
-    /**
-     * USE KEY
-     *
-     * @param view
-     */
-    /*
-    public void UseKey(View view) {
-        try {
-            setViews(findViewById(R.id.keyText));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        //clear plain message
-        ClearEditText(givenText);
-    }
-*/
 
     /**
      * COPY
@@ -147,26 +147,6 @@ public class Decryptor extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    /*
-    public void Send(View view) {
-        //message
-        ed1given = findViewById(R.id.resultText);
-        String text;
-        text = ed1given.getText().toString();
-        String messageToSend = text;
-        //phone no
-
-        ed3phone = findViewById(R.id.phoneText);
-        String phoneNo;
-        phoneNo = ed3phone.getText().toString();
-        String number = "+48" + phoneNo;
-        //sending
-        SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
-        Toast.makeText(getApplicationContext(), "SMS sended successfully",
-                Toast.LENGTH_LONG).show();
-    }
-
-     */
 
     /**
      * PASTE
@@ -186,16 +166,30 @@ public class Decryptor extends AppCompatActivity {
     /**
      * CLEAR
      */
+    public void Clear(View view) {
+        ed2result = findViewById(R.id.givenText);
+        ed2result.setText("");
+    }
+
     public void ClearEditText(EditText view) {
         //ed2result = findViewById(R.id.givenText);
         // ed2result.setText("");
         view.setText("");
     }
 
-    public void ClearOnButton() {
-        ed2result = findViewById(R.id.resultText);
-        ed2result.setText("");
-        ed1given.setText("");
+    /**
+     * USE KEY
+     *
+     * @param view
+     */
+    public void UseKey(View view) {
+        try {
+            encode_array(findViewById(R.id.keyText));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //clear plain message
+        //ClearEditText(givenText);
     }
 
 
@@ -203,9 +197,9 @@ public class Decryptor extends AppCompatActivity {
      * * this is for working with arrays of strings
      *
      * @param view
-     * @throws
+     * @throws IOException
      */
-    public void encode_array(View view) {
+    public void encode_array(View view) throws IOException {
         //>> for String
         //put hardcoded array here
         String[] userIdFirebaseArr = {""};
@@ -232,11 +226,11 @@ public class Decryptor extends AppCompatActivity {
 /*
         //>> writing to file
         writeToFile(Arrays.toString(encodedSourceText));
-
+*/
         TextView resultTextView = findViewById(R.id.resultText);
         resultTextView.setText(encodedSourceText[0]);
         //String resultTextStrg = givenTextView.getText().toString();
- */
+
     }
 
 /*
@@ -258,11 +252,10 @@ public class Decryptor extends AppCompatActivity {
     }
  */
 
-
     /**
      * * this is for working with arrays of strings
      *
-     * @
+     * @param view
      */
     public void decode_array(View view) {
         //>> for String
@@ -414,17 +407,16 @@ public class Decryptor extends AppCompatActivity {
     public static final String md5(final String toEncrypt) {
         try {
             final MessageDigest digest = MessageDigest.getInstance("md5");
-            // final MessageDigest digest = MessageDigest.getInstance("sha-256");
+            //final MessageDigest digest = MessageDigest.getInstance("sha-256");
             digest.update(toEncrypt.getBytes());
             final byte[] bytes = digest.digest();
             final StringBuilder sb = new StringBuilder();
-            //for (int i = 0; i < bytes.length; i++) {sb.append(String.format("%02X", bytes[i]));   }
-            for (byte aByte : bytes) {
-                sb.append(String.format("%02X", aByte));
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(String.format("%02X", bytes[i]));
             }
             return sb.toString().toLowerCase();
         } catch (Exception exc) {
-            return ""; // Impossibru!
+            return "Algorithm exception :/ "; // Impossibru!
         }
     }
 
@@ -440,5 +432,3 @@ public class Decryptor extends AppCompatActivity {
 
 
 }
-
-
