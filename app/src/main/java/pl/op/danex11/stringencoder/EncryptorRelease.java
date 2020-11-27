@@ -25,6 +25,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -70,6 +71,16 @@ public class EncryptorRelease extends AppCompatActivity {
         } catch (Exception exc) {
             return "Algorithm exception :/ "; // Impossibru!
         }
+    }
+
+    public static final byte[] hashbytes(final String toHash) throws NoSuchAlgorithmException {
+        final MessageDigest hashd = MessageDigest.getInstance("md5");
+        //final MessageDigest digest = MessageDigest.getInstance("sha-256");
+        hashd.update(toHash.getBytes());
+        //digest
+        final byte[] bytes = hashd.digest();
+        Log.i("tag_bytes_hashed", "bytes hashed key " + Arrays.toString(bytes));
+        return bytes;
     }
 
     @Override
@@ -227,32 +238,49 @@ public class EncryptorRelease extends AppCompatActivity {
         TextView editedTextView = findViewById(R.id.keyText);
         String stringKeyRaw = editedTextView.getText().toString();
         //HashING key
-        //TODO use straight bytes, no need to use String
         String stringKeyHashed = hash(stringKeyRaw);
-        //Log.i("tag_hashedKey", hashedKey);
+
+        //using straight bytes, no need to use String
+        byte[] stringKeyHashedbyte = new byte[0];
+        try {
+            stringKeyHashedbyte = hashbytes(stringKeyRaw);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        //TODO Base64
         bytesKeyHashed = stringKeyHashed.getBytes(StandardCharsets.UTF_8);
+
         //Password-Based Key Derivation Function 2 is a key stretching algorithm
         //adding bytes to passphase to make a key out of it
         //https://stackoverflow.com/questions/29354133/how-to-fix-invalid-aes-key-length
         //https://stackoverflow.com/questions/8091519/pbkdf2-function-in-android
         String algorithmo = "AES";
         //String algorithmo = getInstance();
+
+        //salt
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
         SecretKeySpec secretKey = new SecretKeySpec(bytesKeyHashed, algorithmo);
+        Log.i("tag_secretKey", "secretKey " + secretKey);
+
 
         //ENCRYPT MESSAGE
         try {
             //AdvancedEncodingStandard ElectronicCodeBook
             //PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt, if the data does not align with a 64 bit or 128 bit block size boundary.
             //AES supported key sizes?
-            //Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            //Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             //Salt / Initialisation Vector
-            SecureRandom random = new SecureRandom();
-            byte[] ivBytes = new byte[16];
-            random.nextBytes(ivBytes);
-            IvParameterSpec iv = new IvParameterSpec(ivBytes);
+            //SecureRandom random = new SecureRandom();
+            //byte[] ivBytes = new byte[16];
+            //random.nextBytes(ivBytes);
+            //IvParameterSpec iv = new IvParameterSpec(ivBytes);
             //Cipher
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             //given message text as bytes
             byte[] plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
             //cipher given message
@@ -260,8 +288,14 @@ public class EncryptorRelease extends AppCompatActivity {
             //reformat bytes to string
             //Lifesaving String/Byte encoding
             cipherB64Text = Base64.encodeToString(cipherText, Base64.DEFAULT);
+            Log.i("tag64encodetoStr", cipherB64Text);
+            //base64test
+            byte[] cipherText64 = Base64.decode(cipherB64Text.getBytes(), Base64.DEFAULT);
+            String cipherB64Text64 = Base64.encodeToString(cipherText64, Base64.DEFAULT);
+            Log.i("tag64decodetoStr", cipherB64Text64);
 
-        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException | UnsupportedOperationException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException e) {
+
+        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException | UnsupportedOperationException | NoSuchAlgorithmException | NoSuchPaddingException e) {
             e.printStackTrace();
         }
 
