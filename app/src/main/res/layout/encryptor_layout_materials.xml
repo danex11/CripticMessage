@@ -55,7 +55,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:hint="type here"
+        android:hint="@string/typehere_hlpr"
         android:textColorHint="@color/colorPrimaryDark"
         app:helperText="message"
         app:helperTextEnabled="true"
@@ -82,7 +82,7 @@
         style="@style/EditTextLayout_Green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="key here"
+        android:hint="@string/key_hlpr"
         android:textColorHint="@color/colorPrimaryDark"
         app:endIconDrawable="@drawable/ic_baseline_vpn_key_24"
         app:endIconMode="custom"
@@ -116,14 +116,16 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="16dp"
         android:ems="12"
-        app:helperText="coded message"
+        app:helperText="@string/codedmsg_lbl"
         app:helperTextEnabled="true"
         app:counterEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/copybutton2"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24">
+        app:startIconDrawable="@drawable/ic_baseline_lock_24"
+
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/resultText"

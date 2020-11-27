@@ -12,14 +12,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="pl.op.danex11.stringencoder.EncryptorOryg"
-            android:icon="@mipmap/ic_encrypthex"
-            android:label="CODER">
+            android:name="pl.op.danex11.stringencoder.EncryptorRelease"
+            android:icon="@mipmap/ic_decrypt"
+            android:label="@string/coder_applbl">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,9 +27,9 @@
         </activity>
 
         <activity
-            android:name="pl.op.danex11.stringencoder.DecryptorOryg"
-            android:icon="@mipmap/ic_decrypt"
-            android:label="DECODER">
+            android:name="pl.op.danex11.stringencoder.DecryptorRelease"
+            android:icon="@mipmap/ic_encrypt"
+            android:label="@string/decoder_applbl">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

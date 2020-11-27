@@ -9,10 +9,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorSecondary</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="textInputStyle">@style/EditTextLayout_Green</item>
         <item name="android:textColorPrimary">@color/colorSecondary</item>
+        <item name="textInputStyle">@style/EditTextLayout_Green</item>
     </style>
 
+    <!--    this is setting default theme for EditText in the whole app  <item name="android:editTextStyle">@style/TextViewNewDefault</item> -->
+    <style name="TextViewNewDefault" parent="Widget.AppCompat.EditText">
+        <item name="android:textAllCaps">true</item>
+    </style>
 
     <!-- Button theme. -->
     <style name="Button.Style.Aqua" parent="Widget.AppCompat.Button.Colored">

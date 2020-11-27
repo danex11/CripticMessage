@@ -131,7 +131,7 @@ public class EncryptorOryg extends AppCompatActivity {
 
     }
 
-    EditText ed1given, ed2result, ed3phone;
+    EditText ed1given, ed2result;
 
     /**
      * COPY
