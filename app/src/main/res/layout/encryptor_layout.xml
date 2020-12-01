@@ -9,6 +9,18 @@
     android:outlineProvider="bounds"
     android:background="@drawable/backrepeat">
 
+    <!--    Action/App bar
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="MissingConstraints" />
+-->
+
     <!-- input EditText -->
     <EditText
         android:id="@+id/givenText"
@@ -88,9 +100,9 @@
         style="@style/AppCompatEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/padlockclosedsmallbrightblue"
+        android:background="@drawable/padlockclosedsmalldarkblue00noal"
         android:imeOptions="actionNext"
         android:maxLines="5"
         android:paddingLeft="20dp"
@@ -100,7 +112,7 @@
         android:scrollbars="vertical"
         android:singleLine="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/givenText"
         app:layout_constraintTop_toBottomOf="@+id/keyText"
         tools:text="gNIb35w8bR8sjN481QYgrglxkgUPhKfgj" />
@@ -120,4 +132,17 @@
         app:layout_constraintStart_toStartOf="@+id/givenText"
         app:layout_constraintTop_toTopOf="@+id/resultText" />
 
+    <!--
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/questionmark"
+            android:contentDescription="@string/fab_butt"
+            app:backgroundTint="@color/colorPrimary"
+            app:tint="@color/colorPrimaryDark"
+            android:layout_margin="16dp"
+            tools:ignore="MissingConstraints" />
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>

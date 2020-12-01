@@ -31,6 +31,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+//TODO swipeview
+
 /**
  *
  */
@@ -43,8 +45,10 @@ public class DecryptorRelease extends AppCompatActivity {
 
     //copy and paste -ing
     ClipboardManager myClipboard;
-    EditText ed1given, ed2result;
+    EditText ed2result, keyText;
+    TextView resultTextView;
     String deencodedSourceText;
+
 
     /**
      * Algorithm setting
@@ -106,7 +110,9 @@ public class DecryptorRelease extends AppCompatActivity {
         //copy and paste -ing
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-
+        ed2result = findViewById(R.id.givenText);
+        resultTextView = findViewById(R.id.resultText);
+        keyText = findViewById(R.id.keyText);
         //given text winding and keyboard behaviour
         final EditText givenText;
         givenText = findViewById(R.id.givenText);
@@ -147,9 +153,8 @@ public class DecryptorRelease extends AppCompatActivity {
      * COPY
      */
     public void Copy(View view) {
-        ed1given = findViewById(R.id.resultText);
         String text;
-        text = ed1given.getText().toString();
+        text = resultTextView.getText().toString();
         ClipData myClip;
         myClip = ClipData.newPlainText("text", text);
         myClipboard.setPrimaryClip(myClip);
@@ -161,8 +166,6 @@ public class DecryptorRelease extends AppCompatActivity {
      * PASTE
      */
     public void Paste(View view) {
-
-        ed2result = findViewById(R.id.givenText);
         ClipData abc = myClipboard.getPrimaryClip();
         ClipData.Item item = abc.getItemAt(0);
         String text = item.getText().toString();
@@ -179,10 +182,10 @@ public class DecryptorRelease extends AppCompatActivity {
         view.setText("");
     }
 
-    public void ClearOnButton() {
+    public void ClearOnButton(View view) {
         ed2result = findViewById(R.id.resultText);
         ed2result.setText("");
-        ed1given.setText("");
+        resultTextView.setText("");
     }
 
     /**
@@ -205,8 +208,8 @@ public class DecryptorRelease extends AppCompatActivity {
 
 
         //Typed key
-        TextView editedTextView = findViewById(R.id.keyText);
-        String KeyStrg = editedTextView.getText().toString();
+
+        String KeyStrg = keyText.getText().toString();
         //Hash key
         String hashedKey = md5(KeyStrg);
         Log.i("tag_hashedKey", hashedKey);
@@ -251,6 +254,7 @@ public class DecryptorRelease extends AppCompatActivity {
         return decipheredTextStr;
     }
 
+
     /**
      * * this is for working with arrays of strings
      *
@@ -271,7 +275,6 @@ public class DecryptorRelease extends AppCompatActivity {
         decodedText = De_text(givenTextStrg);
         //Log.i("En_tagDecipheredtext", Arrays.toString(decodedText));
 
-        TextView resultTextView = findViewById(R.id.resultText);
         //resultTextView.setText(decodedText[0]);
         resultTextView.setText(decodedText);
 

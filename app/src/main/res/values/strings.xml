@@ -5,12 +5,14 @@
     <string name="decoder_applbl">Decoder</string>
 
     <string name="typehere_hlpr">type here</string>
-    <string name="key_hlpr"> Key here</string>
+    <string name="key_hlpr"> your key </string>
 
     <string name="realmsg_lbl">real message</string>
     <string name="codedmsg_lbl">coded message</string>
 
     <string name="given_txthint"> type your message …</string>
+
+    <string name="fab_butt">fab</string>
 
     <string name="Google_sms_policy">Lorem ipsum SMS and Call Log Permissions
 SMS and Call Log Permissions are regarded as personal and sensitive user data subject to the Personal and Sensitive Information policy, and the following restrictions:

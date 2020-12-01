@@ -10,8 +10,13 @@
         <item name="colorAccent">@color/colorSecondary</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/colorSecondary</item>
-        <item name="textInputStyle">@style/EditTextLayout_Green</item>
     </style>
+
+
+    <!--    <item name="actionBarTheme">"@attr/NoActionBar"</item>
+<style name="MyActionBarTheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+</style>
+-->
 
     <!--    this is setting default theme for EditText in the whole app  <item name="android:editTextStyle">@style/TextViewNewDefault</item> -->
     <style name="TextViewNewDefault" parent="Widget.AppCompat.EditText">
