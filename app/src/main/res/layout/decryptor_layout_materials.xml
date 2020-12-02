@@ -86,7 +86,7 @@
         android:layout_marginEnd="16dp"
         android:ems="12"
         app:counterEnabled="true"
-        app:counterMaxLength="160"
+
         app:helperText="@string/realmsg_lbl"
         app:helperTextEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="72dp"
             android:imeOptions="actionNext"
-            android:maxLines="1"
+            android:maxLines="5"
             android:scrollbars="vertical"
             android:singleLine="false"
             app:layout_constraintEnd_toEndOf="@+id/keyText"
