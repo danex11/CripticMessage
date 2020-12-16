@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Message Coder/Decoder</string>
 
-    <string name="coder_applbl">Coder v0.1</string>
-    <string name="decoder_applbl">Decoder v0.1</string>
+    <string name="coder_applbl"> koder v1</string>
+    <string name="decoder_applbl"> dekoder v1</string>
 
     <string name="typehere_hlpr">type here</string>
     <string name="key_hlpr"> your key </string>

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/decryptorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fadingEdge="horizontal|vertical"
@@ -20,22 +21,22 @@
       -->
 
     <!-- key EditText -->
-
-    <Button
-        android:id="@+id/buttonUsekey3"
-        style="@style/AppCompatButton"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:onClick="UseKey"
-        android:text="use key"
-        app:layout_constraintEnd_toStartOf="@+id/keyText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/givenText"
-        tools:ignore="OnClick" />
-
+    <!--
+        <Button
+            android:id="@+id/buttonUsekey3"
+            style="@style/AppCompatButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:onClick="UseKey"
+            android:text="use key"
+            app:layout_constraintEnd_toStartOf="@+id/keyText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/givenText"
+            tools:ignore="OnClick" />
+    -->
     <EditText
         android:id="@+id/givenText"
         style="@style/AppCompatEditText"

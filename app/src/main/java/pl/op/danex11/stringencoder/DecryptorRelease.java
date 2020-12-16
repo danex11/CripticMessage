@@ -1,22 +1,28 @@
 package pl.op.danex11.stringencoder;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -46,9 +52,9 @@ public class DecryptorRelease extends AppCompatActivity {
     //copy and paste -ing
     ClipboardManager myClipboard;
     EditText ed2result, keyText;
-    TextView resultTextView;
+    TextView resultTextView, resultlabel;
     String deencodedSourceText;
-
+    Button clearbutton, copybutton;
 
     /**
      * Algorithm setting
@@ -119,6 +125,17 @@ public class DecryptorRelease extends AppCompatActivity {
         givenText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         givenText.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
+        clearbutton = findViewById(R.id.clearbutton);
+        copybutton = findViewById(R.id.copybutton);
+
+        resultTextView.setVisibility(View.INVISIBLE);
+        clearbutton.setVisibility(View.INVISIBLE);
+        copybutton.setVisibility(View.INVISIBLE);
+
+        resultlabel = findViewById(R.id.resultlabel);
+        resultlabel.setVisibility(View.INVISIBLE);
+
+
         //reaction to specific action on this view -  keyboard "Enter" reaction
         final EditText editKey;
         editKey = (EditText) findViewById(R.id.keyText);
@@ -139,13 +156,117 @@ public class DecryptorRelease extends AppCompatActivity {
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(editKey.getWindowToken(), 0);
                             //action
-                            decode_array(findViewById(R.id.keyText));
+                            if (givenText.length() > 0) {
+                                decode_array(findViewById(R.id.keyText));
+                                ClearEditText(givenText);
+                                resultTextView.setVisibility(View.VISIBLE);
+                                clearbutton.setVisibility(View.VISIBLE);
+                                copybutton.setVisibility(View.VISIBLE);
+                                resultlabel.setVisibility(View.VISIBLE);
+                            }
+                            ;
                             ClearEditText(givenText);
                             handled = true;
                         }
                         return handled;
                     }
                 });
+
+
+        // todo: on text change in editKey, listen for editkey.length>0, than change keyButton style
+        //the layout on which you are working
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.decryptorLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
+        editKey.addTextChangedListener(new TextWatcher() {
+            Button button;
+            int buttonid;
+
+            @SuppressLint("ResourceType")
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.i("tag", "Your Text onTextChanged");
+                // Fires right as the text is being changed (even supplies the range of text)
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                Log.i("tag", "Your Text beforeTextChanged");
+                // Fires right before text is changing
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.i("tag", "Your Text afterTextChanged");
+                // Fires right after the text has changed
+
+                if (button != null) layout.removeView(button);
+                if (editKey.length() == 0 || editKey == null) {
+                    //button style "faded"
+                    buttonid = R.layout.buttonoff_key;
+                    //Log.i("tag", "Your Text length=0");
+                } else {
+                    buttonid = R.layout.buttonon_key;
+                    //button style "ready"
+                    //Log.i("tag", "Your Text length>0");
+                }
+                button = (Button) getLayoutInflater().inflate(buttonid, null);
+                button.setId(buttonid);
+                button.setText("GET IT!");
+                //if (editKey.length() == 0) {
+                //button.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
+                //btn.setVisibility(View.INVISIBLE
+                //}
+                constraintSet.clone(layout);
+                Log.i("constraitainset", String.valueOf(constraintSet));
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                Log.i("constraitainsetAfter", String.valueOf(constraintSet));
+                constraintSet.applyTo(layout);
+                constraintSet.clone(layout);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                Log.i("constraitainsetAfter", String.valueOf(constraintSet));
+                constraintSet.applyTo(layout);
+
+                //add button to the layout
+                layout.addView(button);
+                constraintSet.clone(layout);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                Log.i("constraitainsetAfter", String.valueOf(constraintSet));
+                constraintSet.applyTo(layout);
+                layout.removeView(button);
+                constraintSet.clone(layout);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                Log.i("constraitainsetAfter", String.valueOf(constraintSet));
+                constraintSet.applyTo(layout);
+                layout.addView(button);
+                constraintSet.clone(layout);
+                //constraintSet.connect(button.getId(), ConstraintSet.RIGHT, R.id.keyText, ConstraintSet.LEFT, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.LEFT, R.id.givenText, ConstraintSet.LEFT, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.givenText, ConstraintSet.BOTTOM, 15);
+                Log.i("constraitainsetAfter", String.valueOf(constraintSet));
+                constraintSet.applyTo(layout);
+                //button Onclick listener
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // put code on click operation
+                        //action
+                        if (givenText.length() > 0) {
+                            decode_array(findViewById(R.id.keyText));
+                            ClearEditText(givenText);
+                            resultTextView.setVisibility(View.VISIBLE);
+                            clearbutton.setVisibility(View.VISIBLE);
+                            copybutton.setVisibility(View.VISIBLE);
+                            resultlabel.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+        });
+
 
     }
 
