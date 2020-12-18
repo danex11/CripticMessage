@@ -71,7 +71,7 @@
         android:background="@drawable/keysmall00sharp"
         android:ems="8"
         android:hint="@string/key_hlpr"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionNext"
         android:inputType="textPassword"
         android:maxLength="20"
         android:maxLines="1"

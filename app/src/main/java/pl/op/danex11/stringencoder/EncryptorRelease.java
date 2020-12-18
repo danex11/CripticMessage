@@ -58,7 +58,7 @@ public class EncryptorRelease extends AppCompatActivity {
     Button copybutton;
     EditText givenText;
 
-    Animation animGiven, animCopyButton, animResult, animGivenback, animKey;
+    Animation animGiven, animCopyButton, animResult, animGivenback, animKey, animKeyback;
 
 
     /**
@@ -131,6 +131,7 @@ public class EncryptorRelease extends AppCompatActivity {
         animResult = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_result);
         animGivenback = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_givenback);
         animKey = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_key);
+        animKeyback = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_keyback);
 
 
         //        //reaction to specific action on this view  -  keyboard "Enter" reaction
@@ -325,6 +326,8 @@ public class EncryptorRelease extends AppCompatActivity {
                 givenText.setText("");
                 givenText.startAnimation(animGivenback);
                 resultTextView.setText(encodedSourceText);
+                findViewById(R.id.keyText).startAnimation(animKeyback);
+
             }
         });
 

@@ -13,6 +13,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -54,6 +56,8 @@ public class DecryptorRelease extends AppCompatActivity {
     TextView resultTextView, resultlabel;
     String deencodedSourceText;
     Button clearbutton, copybutton;
+
+    Animation animGiven, animCopyButton, animResult, animGivenback, animKey, animKeyback;
 
     /**
      * Algorithm setting
@@ -127,12 +131,21 @@ public class DecryptorRelease extends AppCompatActivity {
         clearbutton = findViewById(R.id.clearbutton);
         copybutton = findViewById(R.id.copybutton);
 
+        //final Animation animBounce = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce_anim);
+        animGiven = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_given);
+        animCopyButton = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_copybutton);
+        animResult = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_result);
+        animGivenback = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_givenback);
+        animKey = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_key);
+        animKeyback = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_keyback);
+
         resultTextView.setVisibility(View.INVISIBLE);
         clearbutton.setVisibility(View.INVISIBLE);
         copybutton.setVisibility(View.INVISIBLE);
 
         resultlabel = findViewById(R.id.resultlabel);
         resultlabel.setVisibility(View.INVISIBLE);
+
 
 
         //reaction to specific action on this view -  keyboard "Enter" reaction
