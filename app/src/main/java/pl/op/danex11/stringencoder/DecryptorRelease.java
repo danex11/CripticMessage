@@ -46,7 +46,6 @@ public class DecryptorRelease extends AppCompatActivity {
 
     byte[] keyBytesFromStr;
     String cipherB64Text;
-    String[] encodedSourceText;
     String decodedText;
 
     //copy and paste -ing

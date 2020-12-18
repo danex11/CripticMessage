@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <translate
+
+        android:startOffset="1000"
+        android:fromXDelta="0%p"
+        android:fromYDelta="0%p"
+        android:toXDelta="0%p"
+        android:toYDelta="400%"
+        android:duration="1500"
+        android:fillAfter="true" />
+
+    <!--
+        <alpha xmlns:android="http://schemas.android.com/apk/res/android"
+            android:interpolator="@interpolator/fast_out_slow_in"
+            android:fromAlpha="1.0"
+            android:toAlpha="0.0"
+            android:duration="1000"
+            android:fillAfter="false"
+            android:repeatCount="1"
+            android:repeatMode="reverse"
+            />
+    -->
+</set>

@@ -1,38 +1,35 @@
 package pl.op.danex11.stringencoder;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.BlendMode;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -43,7 +40,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 
@@ -60,6 +56,10 @@ public class EncryptorRelease extends AppCompatActivity {
     EditText ed1given, ed2result;
     TextView resultTextView;
     Button copybutton;
+    EditText givenText;
+
+    Animation animGiven, animCopyButton, animResult, animGivenback, animKey;
+
 
     /**
      * Algorithm setting
@@ -114,7 +114,6 @@ public class EncryptorRelease extends AppCompatActivity {
         //copy and paste -ing
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-        final EditText givenText;
         givenText = findViewById(R.id.givenText);
         givenText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         givenText.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -125,6 +124,13 @@ public class EncryptorRelease extends AppCompatActivity {
 
         copybutton = findViewById(R.id.copyButton);
         copybutton.setVisibility(View.INVISIBLE);
+
+        //final Animation animBounce = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce_anim);
+        animGiven = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_given);
+        animCopyButton = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_copybutton);
+        animResult = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_result);
+        animGivenback = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_givenback);
+        animKey = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_key);
 
 
         //        //reaction to specific action on this view  -  keyboard "Enter" reaction
@@ -144,12 +150,11 @@ public class EncryptorRelease extends AppCompatActivity {
                             //todo
                             try {
                                 UseKey();
-                                resultTextView.setVisibility(View.VISIBLE);
-                                copybutton.setVisibility(View.VISIBLE);
                                 //encode_array(findViewById(R.id.keyText));
                             } finally {
                             }
-                            ClearEditText(givenText);
+                            //clear textview
+                            //ClearEditText(givenText);
                             //hide keyboard
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(editKey.getWindowToken(), 0);
@@ -241,8 +246,8 @@ public class EncryptorRelease extends AppCompatActivity {
                     public void onClick(View v) {
                         // put code on click operation
                         UseKey();
-                        resultTextView.setVisibility(View.VISIBLE);
-                        copybutton.setVisibility(View.VISIBLE);
+
+
                     }
                 });
             }
@@ -298,6 +303,37 @@ public class EncryptorRelease extends AppCompatActivity {
      */
     public void UseKey() {
         encode_array(findViewById(R.id.keyText));
+        resultTextView.setVisibility(View.VISIBLE);
+        copybutton.setVisibility(View.VISIBLE);
+
+        animGiven.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                resultTextView.setText("");
+                findViewById(R.id.keyText).startAnimation(animKey);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //do stuff
+                //givenText.setVisibility(View.INVISIBLE);
+                givenText.setText("");
+                givenText.startAnimation(animGivenback);
+                resultTextView.setText(encodedSourceText);
+            }
+        });
+
+        copybutton.startAnimation(animCopyButton);
+        resultTextView.startAnimation(animResult);
+
+        givenText.startAnimation(animGiven);
+
+
     }
 
     /**
@@ -335,8 +371,8 @@ public class EncryptorRelease extends AppCompatActivity {
         //>> writing to file
         writeToFile(Arrays.toString(encodedSourceText));
 */
-
-        resultTextView.setText(encodedSourceText);
+//TODO  whare to set text view
+        //>>> resultTextView.setText(encodedSourceText);
         //String resultTextStrg = givenTextView.getText().toString();
 
     }
