@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@interpolator/fast_out_slow_in">
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+       <scale
+   android:interpolator="@android:anim/bounce_interpolator"
+           android:startOffset="1500"
+           android:fromXScale="0.0"
+           android:toXScale="1.0"
+           android:pivotX="50%"
+           android:fromYScale="0.0"
+           android:toYScale="1.0"
+           android:duration="800" />
+     -->
 
     <translate
 
-        android:startOffset="2500"
+        android:startOffset="0"
         android:fromXDelta="0%p"
-        android:fromYDelta="400%"
+        android:fromYDelta="-100%p"
         android:toXDelta="0%p"
         android:toYDelta="0%p"
-        android:duration="1500"
+        android:duration="1000"
         android:fillAfter="true" />
+
+
     <!--
         <alpha xmlns:android="http://schemas.android.com/apk/res/android"
             android:interpolator="@interpolator/fast_out_slow_in"

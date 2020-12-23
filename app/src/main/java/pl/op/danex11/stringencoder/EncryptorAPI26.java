@@ -1,7 +1,5 @@
 package pl.op.danex11.stringencoder;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -45,8 +43,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 //todo reset to new layout/activity with new icon click
 
+//TODO lock layout inside layout with fixed height, to relate animations to its fixed height
 
-public class EncryptorRelease extends AppCompatActivity {
+public class EncryptorAPI26 extends AppCompatActivity {
     byte[] bytesKeyHashed;
     String cipherB64Text;
     String encodedSourceText;
@@ -57,6 +56,9 @@ public class EncryptorRelease extends AppCompatActivity {
     TextView resultTextView;
     Button copybutton;
     EditText givenText;
+    EditText editKey;
+
+    ConstraintLayout layout;
 
     Animation animGiven, animCopyButton, animResult, animGivenback, animKey, animKeyback;
 
@@ -103,9 +105,12 @@ public class EncryptorRelease extends AppCompatActivity {
         //Set Layout
         if (android.os.Build.VERSION.SDK_INT >= 26) {
             setContentView(R.layout.encryptor_layout_materials);
+            //the layout on which you are working
+            layout = (ConstraintLayout) findViewById(R.id.encryptorMaterialsInnerLayout);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " >= 26");
         } else {
             setContentView(R.layout.encryptor_layout);
+            layout = (ConstraintLayout) findViewById(R.id.encryptorInnerLayout);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " < 26");
         }
 
@@ -135,7 +140,6 @@ public class EncryptorRelease extends AppCompatActivity {
 
 
         //        //reaction to specific action on this view  -  keyboard "Enter" reaction
-        final EditText editKey;
         editKey = (EditText) findViewById(R.id.keyText);
         //set password hint font to default - it was mambojumboing
         editKey.setTypeface(Typeface.DEFAULT);
@@ -146,11 +150,12 @@ public class EncryptorRelease extends AppCompatActivity {
                     public boolean onEditorAction(TextView v, int actionId,
                                                   KeyEvent event) {
                         boolean handled = false;
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        if (actionId == EditorInfo.IME_ACTION_NEXT) {
                             // handle action here
-                            //todo
                             try {
+
                                 UseKey();
+
                                 //encode_array(findViewById(R.id.keyText));
                             } finally {
                             }
@@ -167,8 +172,7 @@ public class EncryptorRelease extends AppCompatActivity {
 
 
 // todo: on text change in editKey, listen for editkey.length>0, than change keyButton style
-        //the layout on which you are working
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.encryptorLayout);
+
         ConstraintSet constraintSet = new ConstraintSet();
         editKey.addTextChangedListener(new TextWatcher() {
             Button button;
@@ -208,37 +212,37 @@ public class EncryptorRelease extends AppCompatActivity {
                 }
                 button = (Button) getLayoutInflater().inflate(buttonid, null);
                 button.setId(buttonid);
-                button.setText("GET IT!");
+                button.setText(R.string.key_butt_lbl);
                 //if (editKey.length() == 0) {
                 //button.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
                 //btn.setVisibility(View.INVISIBLE
                 //}
                 constraintSet.clone(layout);
                 Log.i("constraitainset", String.valueOf(constraintSet));
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                //constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
                 constraintSet.clone(layout);
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                //constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
 
                 //add button to the layout
                 layout.addView(button);
                 constraintSet.clone(layout);
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                //constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
                 layout.removeView(button);
                 constraintSet.clone(layout);
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                //constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
                 layout.addView(button);
                 constraintSet.clone(layout);
                 //constraintSet.connect(button.getId(), ConstraintSet.RIGHT, R.id.keyText, ConstraintSet.LEFT, 0);
-                constraintSet.connect(button.getId(), ConstraintSet.LEFT, R.id.givenText, ConstraintSet.LEFT, 0);
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.givenText, ConstraintSet.BOTTOM, 15);
+                constraintSet.connect(button.getId(), ConstraintSet.RIGHT, R.id.givenText, ConstraintSet.RIGHT, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.BOTTOM, R.id.resultText, ConstraintSet.TOP, 20);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
                 //button Onclick listener
@@ -303,38 +307,46 @@ public class EncryptorRelease extends AppCompatActivity {
      * @param
      */
     public void UseKey() {
-        encode_array(findViewById(R.id.keyText));
-        resultTextView.setVisibility(View.VISIBLE);
-        copybutton.setVisibility(View.VISIBLE);
+        if (editKey.length() > 0) {
+            Toast.makeText(getApplicationContext(), "Key OK>0",
+                    Toast.LENGTH_SHORT).show();
+            encode_array(editKey);
+            resultTextView.setVisibility(View.VISIBLE);
+            copybutton.setVisibility(View.VISIBLE);
 
-        animGiven.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                resultTextView.setText("");
-                findViewById(R.id.keyText).startAnimation(animKey);
+            animGiven.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    resultTextView.setText("");
+                    findViewById(R.id.keyText).startAnimation(animKey);
 
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                //do stuff
-                //givenText.setVisibility(View.INVISIBLE);
-                givenText.setText("");
-                givenText.startAnimation(animGivenback);
-                resultTextView.setText(encodedSourceText);
-                findViewById(R.id.keyText).startAnimation(animKeyback);
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    //do stuff
+                    //givenText.setVisibility(View.INVISIBLE);
+                    givenText.setText("");
+                    givenText.startAnimation(animGivenback);
+                    resultTextView.setText(encodedSourceText);
+                    findViewById(R.id.keyText).startAnimation(animKeyback);
 
-            }
-        });
+                }
+            });
 
-        copybutton.startAnimation(animCopyButton);
-        resultTextView.startAnimation(animResult);
+            copybutton.startAnimation(animCopyButton);
+            resultTextView.startAnimation(animResult);
 
-        givenText.startAnimation(animGiven);
+            givenText.startAnimation(animGiven);
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Key should not be empty",
+                    Toast.LENGTH_SHORT).show();
+        }
 
 
     }

@@ -10,147 +10,155 @@
     android:outlineProvider="bounds"
     android:background="@drawable/backrepeatopen">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/decryptorInnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!--  android:background="@color/windowBackground" -->
-    <!-- input EditText -->
+
+        <!--  android:background="@color/windowBackground" -->
+        <!-- input EditText -->
 
 
-    <!--
- app:startIconContentDescription="icon description"
-    app:startIconDrawable="@drawable/ic_launcher_foreground"
-      -->
+        <!--
+     app:startIconContentDescription="icon description"
+        app:startIconDrawable="@drawable/ic_launcher_foreground"
+          -->
 
-    <!-- key EditText -->
-    <!--
-        <Button
-            android:id="@+id/buttonUsekey3"
-            style="@style/AppCompatButton"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
+        <!-- key EditText -->
+        <!--
+            <Button
+                android:id="@+id/buttonUsekey3"
+                style="@style/AppCompatButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:onClick="UseKey"
+                android:text="use key"
+                app:layout_constraintEnd_toStartOf="@+id/keyText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/givenText"
+                tools:ignore="OnClick" />
+        -->
+        <EditText
+            android:id="@+id/givenText"
+            style="@style/AppCompatEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:onClick="UseKey"
-            android:text="use key"
-            app:layout_constraintEnd_toStartOf="@+id/keyText"
+            android:background="@drawable/padlockclosedsmalldarkblue00noal"
+            android:ems="12"
+            android:inputType="text"
+            android:maxLines="5"
+            android:paddingLeft="10dp"
+            android:paddingTop="75dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="14dp"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="gNIb35/w8bR8sjN481QYgrglx/kgUPh" />
+
+        <!-- "result" label -->
+
+        <!-- result Text -->
+
+        <EditText
+            android:id="@+id/keyText"
+            style="@style/AppCompatEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/keysmall00sharp"
+            android:ems="6"
+            android:hint="@string/key_hlpr"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/givenText"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/givenText"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/resultlabel"
+            android:editable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/colorSecondary"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/realmsg_lbl"
+            android:textColor="@color/colorSecondary"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/resultText"
+            app:layout_constraintTop_toBottomOf="@+id/keyText" />
+
+        <EditText
+            android:id="@+id/resultText"
+            style="@style/AppCompatEditText"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:imeOptions="actionNext"
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/givenText"
+            app:layout_constraintTop_toBottomOf="@+id/resultlabel" />
+
+        <Button
+            android:id="@+id/copybutton"
+            style="@style/AppCompatButton"
+            android:layout_width="85dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="59dp"
+            android:onClick="Copy"
+            android:text="Copy"
+            app:layout_constraintStart_toStartOf="@+id/clearbutton"
+            app:layout_constraintTop_toTopOf="@+id/clearbutton" />
+
+        <Button
+            android:id="@+id/clearbutton"
+            style="@style/AppCompatButton"
+            android:layout_width="85dp"
+            android:layout_height="50dp"
+            android:onClick="ClearOnButton"
+            android:text="Clear"
+            app:layout_constraintEnd_toEndOf="@+id/givenText"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/resultText"
+            app:layout_constraintTop_toBottomOf="@+id/resultText"
             tools:ignore="OnClick" />
-    -->
-    <EditText
-        android:id="@+id/givenText"
-        style="@style/AppCompatEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/padlockclosedsmalldarkblue00noal"
-        android:ems="12"
-        android:inputType="text"
-        android:maxLines="5"
-        android:paddingLeft="10dp"
-        android:paddingTop="75dp"
-        android:paddingRight="30dp"
-        android:paddingBottom="14dp"
-        android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="gNIb35/w8bR8sjN481QYgrglx/kgUPh" />
 
-    <!-- "result" label -->
-
-    <!-- result Text -->
-
-    <EditText
-        android:id="@+id/keyText"
-        style="@style/AppCompatEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/keysmall00sharp"
-        android:ems="6"
-        android:hint="@string/key_hlpr"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        android:padding="3dp"
-        android:textColorHint="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="@+id/givenText"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/givenText"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/resultlabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="@color/colorSecondary"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/realmsg_lbl"
-        android:textColor="@color/colorSecondary"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/resultText"
-        app:layout_constraintTop_toBottomOf="@+id/keyText" />
-
-    <EditText
-        android:id="@+id/resultText"
-        style="@style/AppCompatEditText"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:imeOptions="actionNext"
-        android:maxLines="5"
-        android:scrollbars="vertical"
-        android:singleLine="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/resultlabel" />
-
-    <Button
-        android:id="@+id/copybutton"
-        style="@style/AppCompatButton"
-        android:layout_width="85dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="59dp"
-        android:onClick="Copy"
-        android:text="Copy"
-        app:layout_constraintStart_toStartOf="@+id/clearbutton"
-        app:layout_constraintTop_toTopOf="@+id/clearbutton" />
-
-    <Button
-        android:id="@+id/clearbutton"
-        style="@style/AppCompatButton"
-        android:layout_width="85dp"
-        android:layout_height="50dp"
-        android:onClick="ClearOnButton"
-        android:text="Clear"
-        app:layout_constraintEnd_toEndOf="@+id/givenText"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/resultText"
-        app:layout_constraintTop_toBottomOf="@+id/resultText"
-        tools:ignore="OnClick" />
-
-    <Button
-        android:id="@+id/pastebutton"
-        style="@style/AppCompatButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="32dp"
-        android:onClick="Paste"
-        android:text="Paste"
-        app:layout_constraintEnd_toEndOf="@+id/givenText"
-        app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toTopOf="@+id/givenText" />
+        <Button
+            android:id="@+id/pastebutton"
+            style="@style/AppCompatButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="32dp"
+            android:onClick="Paste"
+            android:text="Paste"
+            app:layout_constraintEnd_toEndOf="@+id/givenText"
+            app:layout_constraintStart_toStartOf="@+id/givenText"
+            app:layout_constraintTop_toTopOf="@+id/givenText" />
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

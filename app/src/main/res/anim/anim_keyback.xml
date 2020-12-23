@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:anim/bounce_interpolator"
+
     android:shareInterpolator="true"
     android:fillAfter="true">
 
+    <translate
+        android:startOffset="0"
+        android:fromXDelta="0%p"
+        android:fromYDelta="-82%p"
+        android:toXDelta="0%p"
+        android:toYDelta="0%p"
+        android:duration="1000"
+        android:fillAfter="false"
+        android:repeatCount="0"
+        android:repeatMode="restart" />
+
+    <!--
     <scale
-        android:startOffset="3800"
+        android:startOffset="1500"
         android:fromXScale="0.0"
         android:toXScale="1.0"
         android:pivotX="50%"
         android:fromYScale="0.0"
         android:toYScale="1.0"
         android:duration="800" />
+        -->
 </set>

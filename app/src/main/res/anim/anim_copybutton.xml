@@ -10,10 +10,10 @@
         android:fillAfter="true" />
 
     <alpha xmlns:android="http://schemas.android.com/apk/res/android"
-        android:startOffset="6400"
+        android:startOffset="4000"
         android:fromAlpha="0.0"
         android:toAlpha="1.0"
-        android:duration="1500"
+        android:duration="1300"
         android:fillAfter="true"
         android:repeatCount="0"
         android:repeatMode="reverse" />

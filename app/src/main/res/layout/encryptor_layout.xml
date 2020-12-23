@@ -10,7 +10,14 @@
     android:outlineProvider="bounds"
     android:background="@drawable/backrepeat">
 
-    <!--    Action/App bar
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/encryptorInnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <!--    Action/App bar
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
@@ -22,65 +29,68 @@
         tools:ignore="MissingConstraints" />
 -->
 
-    <!-- input EditText -->
-    <EditText
-        android:id="@+id/givenText"
-        style="@style/AppCompatEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:ems="12"
-        android:hint="@string/given_txthint"
-        android:inputType="textMultiLine"
-        android:maxLines="5"
-        android:padding="10dp"
-        android:scrollbars="vertical"
-        android:singleLine="false"
-        android:textColorHint="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!-- key EditText -->
+        <!-- input EditText -->
+        <EditText
+            android:id="@+id/givenText"
+            style="@style/AppCompatEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:ems="12"
+            android:hint="@string/given_txthint"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!-- key EditText -->
 
 
-    <!-- result Text -->
+        <!-- result Text -->
 
-    <!-- phone Edit Text -->
+        <!-- phone Edit Text -->
 
-    <EditText
-        android:id="@+id/resultlabel2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorSecondary"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/codedmsg_lbl"
-        android:textColor="@color/colorSecondary"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/copybutton"
-        app:layout_constraintStart_toStartOf="@+id/resultText" />
+        <EditText
+            android:id="@+id/resultlabel2"
+            android:editable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="184dp"
+            android:backgroundTint="@color/colorSecondary"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/realmsg_lbl"
+            android:textColor="@color/colorSecondary"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/copybutton"
+            app:layout_constraintStart_toStartOf="@+id/resultText" />
 
-    <EditText
-        android:id="@+id/keyText"
-        style="@style/AppCompatEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/keysmall00sharp"
-        android:ems="8"
-        android:hint="@string/key_hlpr"
-        android:imeOptions="actionNext"
-        android:inputType="textPassword"
-        android:maxLength="20"
-        android:maxLines="1"
-        android:padding="3dp"
-        android:textColorHint="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/givenText"
-        tools:ignore="MissingConstraints" />
-    <!--
+        <EditText
+            android:id="@+id/keyText"
+            style="@style/AppCompatEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="100dp"
+            android:background="@drawable/keysmall00sharp"
+            android:ems="8"
+            android:hint="@string/key_hlpr"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/givenText"
+            app:layout_constraintTop_toBottomOf="@+id/givenText"
+            tools:ignore="MissingConstraints" />
+        <!--
         <Button
             android:id="@+id/buttonUsekey2"
             android:layout_width="0dp"
@@ -96,44 +106,44 @@
             tools:ignore="OnClick" />
     -->
 
-    <EditText
-        android:id="@+id/resultText"
-        style="@style/AppCompatEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/padlockclosedsmalldarkblue00noal"
-        android:imeOptions="actionNext"
-        android:maxLines="5"
-        android:paddingLeft="20dp"
-        android:paddingTop="75dp"
-        android:paddingRight="30dp"
-        android:paddingBottom="14dp"
-        android:scrollbars="vertical"
-        android:singleLine="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toBottomOf="@+id/keyText"
-        tools:text="gNIb35w8bR8sjN481QYgrglxkgUPhKfgj" />
+        <EditText
+            android:id="@+id/resultText"
+            style="@style/AppCompatEditText"
+            android:layout_width="0dp"
+            android:layout_height="160dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="144dp"
+            android:background="@drawable/padlockclosedsmalldarkblue00noal"
+            android:imeOptions="actionNext"
+            android:maxLines="5"
+            android:paddingLeft="20dp"
+            android:paddingTop="75dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="14dp"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/givenText"
+            tools:text="gNIb35w8bR8sjN481QYgrglxkgUPhKfgj" />
 
-    <Button
-        android:id="@+id/copyButton"
-        style="@style/AppCompatButton"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="32dp"
-        android:onClick="Copy"
-        android:text="Copy"
-        app:layout_constraintEnd_toEndOf="@+id/resultText"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/givenText"
-        app:layout_constraintTop_toTopOf="@+id/resultText" />
+        <Button
+            android:id="@+id/copyButton"
+            style="@style/AppCompatButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="32dp"
+            android:onClick="Copy"
+            android:text="Copy"
+            app:layout_constraintEnd_toEndOf="@+id/resultText"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/givenText"
+            app:layout_constraintTop_toTopOf="@+id/resultText" />
 
-    <!--
+        <!--
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -146,4 +156,5 @@
             android:layout_margin="16dp"
             tools:ignore="MissingConstraints" />
     -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

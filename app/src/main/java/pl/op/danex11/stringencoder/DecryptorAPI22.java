@@ -44,7 +44,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  *
  */
-public class DecryptorRelease extends AppCompatActivity {
+public class DecryptorAPI22 extends AppCompatActivity {
 
     byte[] keyBytesFromStr;
     String cipherB64Text;
@@ -57,7 +57,10 @@ public class DecryptorRelease extends AppCompatActivity {
     String deencodedSourceText;
     Button clearbutton, copybutton;
 
+    ConstraintLayout layout;
+
     Animation animGiven, animCopyButton, animResult, animGivenback, animKey, animKeyback;
+
 
     /**
      * Algorithm setting
@@ -107,11 +110,15 @@ public class DecryptorRelease extends AppCompatActivity {
         //  LAYOUT  LAYOUT  LAYOUT
         if (android.os.Build.VERSION.SDK_INT >= 26) {
             setContentView(R.layout.decryptor_layout_materials);
+            //the layout on which you are working
+            layout = (ConstraintLayout) findViewById(R.id.decryptorMaterialsInnerLayout);
             // >=23
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " >= 26");
         } else {
             setContentView(R.layout.decryptor_layout);
+            //the layout on which you are working
+            layout = (ConstraintLayout) findViewById(R.id.decryptorInnerLayout);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " < 26");
         }
 
@@ -147,7 +154,6 @@ public class DecryptorRelease extends AppCompatActivity {
         resultlabel.setVisibility(View.INVISIBLE);
 
 
-
         //reaction to specific action on this view -  keyboard "Enter" reaction
         final EditText editKey;
         editKey = (EditText) findViewById(R.id.keyText);
@@ -161,22 +167,25 @@ public class DecryptorRelease extends AppCompatActivity {
                     public boolean onEditorAction(TextView v, int actionId,
                                                   KeyEvent event) {
                         boolean handled = false;
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        if (actionId == EditorInfo.IME_ACTION_NEXT) {
                             // handle action here
-                            //todo
                             //hide keyboard
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(editKey.getWindowToken(), 0);
                             //action
-                            if (givenText.length() > 0) {
+                            Toast.makeText(getApplicationContext(), "IME action",
+                                    Toast.LENGTH_SHORT).show();
+                            if (keyText.length() > 0) {
+                                Toast.makeText(getApplicationContext(), "key>0 ok",
+                                        Toast.LENGTH_SHORT).show();
                                 decode_array(findViewById(R.id.keyText));
                                 ClearEditText(givenText);
                                 resultTextView.setVisibility(View.VISIBLE);
                                 clearbutton.setVisibility(View.VISIBLE);
                                 copybutton.setVisibility(View.VISIBLE);
                                 resultlabel.setVisibility(View.VISIBLE);
+                                givenText.startAnimation(animGiven);
                             }
-                            ;
                             ClearEditText(givenText);
                             handled = true;
                         }
@@ -186,8 +195,7 @@ public class DecryptorRelease extends AppCompatActivity {
 
 
         // todo: on text change in editKey, listen for editkey.length>0, than change keyButton style
-        //the layout on which you are working
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.decryptorLayout);
+
         ConstraintSet constraintSet = new ConstraintSet();
         editKey.addTextChangedListener(new TextWatcher() {
             Button button;
@@ -227,7 +235,7 @@ public class DecryptorRelease extends AppCompatActivity {
                 }
                 button = (Button) getLayoutInflater().inflate(buttonid, null);
                 button.setId(buttonid);
-                button.setText("GET IT!");
+                button.setText(R.string.key_butt_lbl);
                 //if (editKey.length() == 0) {
                 //button.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
                 //btn.setVisibility(View.INVISIBLE
@@ -361,19 +369,21 @@ public class DecryptorRelease extends AppCompatActivity {
 
             cipher.init(Cipher.DECRYPT_MODE, secretkey);
 
-
             //<<@ciphertext is a value we store as a Base64 string
             //todo this is our Base64 problem
             Log.i("tag_ciphertext", "text " + ciphertext);
-            byte[] cipherText = Base64.decode(ciphertext.getBytes(), Base64.DEFAULT);
+            byte[] cipherText;
+
+            //TODO crashing for some strings
+            cipherText = Base64.decode(ciphertext.getBytes(), Base64.DEFAULT);
+            //char encoding??
 
             byte[] decipheredText = cipher.doFinal(cipherText);
-            //char encoding??
-            decipheredTextStr = decodeUTF8(decipheredText);
+            if (cipherText.length > 0) {
+                decipheredTextStr = decodeUTF8(decipheredText);
+            }
             //decodedTexts = decipheredTextStr;
-
-
-        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException | IllegalArgumentException e) {
             //temp placeholder since decodedTexts has no value yet, and might not get any value if deciphering fails
             // decodedText = "¯\\_(ツ)_/¯";// ( ఠ ͟ʖ ఠ) ";
             // decipheredTextStr = "¯\\_(ツ)_/¯";
@@ -532,14 +542,14 @@ public class DecryptorRelease extends AppCompatActivity {
         //https://stackoverflow.com/questions/29354133/how-to-fix-invalid-aes-key-length
         //https://stackoverflow.com/questions/8091519/pbkdf2-function-in-android
 
-        //ENCRYPT
+        //DECRYPT
         try {
             cipher.init(Cipher.DECRYPT_MODE, hashedKey);
-            //TODO this is where we do every string one after another
+
             Log.i("tagplaintext", "plaintext before " + plaintext);
             //plain text as bytes
             byte[] plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
-            //TODO javax.crypto.IllegalBlockSizeException: error:1e06b07b:Cipher functions:EVP_DecryptFinal_ex:WRONG_FINAL_BLOCK_LENGTH
+
             //cipher
             byte[] cipherText = cipher.doFinal(plainTextBytes);
             //cipher text back to string
