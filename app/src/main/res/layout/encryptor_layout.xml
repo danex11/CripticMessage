@@ -10,11 +10,14 @@
     android:outlineProvider="bounds"
     android:background="@drawable/backrepeat">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/encryptorInnerLayout"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        app:layout_constraintTop_toTopOf="parent">
+
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
 
         <!--    Action/App bar
@@ -30,6 +33,7 @@
 -->
 
         <!-- input EditText -->
+
         <EditText
             android:id="@+id/givenText"
             style="@style/AppCompatEditText"
@@ -58,11 +62,11 @@
 
         <EditText
             android:id="@+id/resultlabel2"
-            android:editable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="184dp"
             android:backgroundTint="@color/colorSecondary"
+            android:editable="false"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="@string/realmsg_lbl"
@@ -71,13 +75,13 @@
             app:layout_constraintBottom_toTopOf="@+id/copybutton"
             app:layout_constraintStart_toStartOf="@+id/resultText" />
 
+
         <EditText
             android:id="@+id/keyText"
             style="@style/AppCompatEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="100dp"
             android:background="@drawable/keysmall00sharp"
             android:ems="8"
             android:hint="@string/key_hlpr"
@@ -87,7 +91,9 @@
             android:maxLines="1"
             android:padding="3dp"
             android:textColorHint="@color/colorPrimaryDark"
-            app:layout_constraintEnd_toEndOf="@+id/givenText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/givenText"
             tools:ignore="MissingConstraints" />
         <!--
@@ -137,11 +143,45 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:onClick="Copy"
-            android:text="Copy"
+            android:text="@string/copy_butt_lbl"
             app:layout_constraintEnd_toEndOf="@+id/resultText"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/givenText"
             app:layout_constraintTop_toTopOf="@+id/resultText" />
+
+        <ImageView
+            android:id="@+id/fingerview"
+            android:layout_width="223dp"
+            android:layout_height="207dp"
+            android:layout_above="@id/encryptorInnerLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/pointingfinger"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/mark50p"
+            android:layout_width="16dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="136dp"
+            android:text="Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/mark75p"
+            android:layout_width="16dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="136dp"
+            android:text="Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mark50p"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible" />
+
 
         <!--
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -157,4 +197,5 @@
             tools:ignore="MissingConstraints" />
     -->
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

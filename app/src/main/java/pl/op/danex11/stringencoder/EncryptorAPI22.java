@@ -1,3 +1,6 @@
+
+
+
 package pl.op.danex11.stringencoder;
 
 import android.animation.Animator;
@@ -21,6 +24,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,11 +63,15 @@ public class EncryptorAPI22 extends AppCompatActivity {
     Button copybutton;
     EditText givenText;
     EditText editKey;
+    ImageView finger;
+    Button mark75p;
 
     ConstraintLayout layout;
 
     Animation animGiven, animCopyButton, animResult, animGivenback, animKey, animKeyback;
+    Animation animFingeratGiven, animfingeratKey, animfingeratKeybutton, animFingeratResult;
 
+    int step = 0;
 
     /**
      * Algorithm setting
@@ -105,16 +113,18 @@ public class EncryptorAPI22 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Set Layout
+        /*
         if (android.os.Build.VERSION.SDK_INT >= 26) {
             setContentView(R.layout.encryptor_layout_materials);
             //the layout on which you are working
             layout = (ConstraintLayout) findViewById(R.id.encryptorMaterialsInnerLayout);
             Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " >= 26");
         } else {
-            setContentView(R.layout.encryptor_layout);
-            layout = (ConstraintLayout) findViewById(R.id.encryptorInnerLayout);
-            Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " < 26");
-        }
+         */
+        setContentView(R.layout.encryptor_layout);
+        layout = (ConstraintLayout) findViewById(R.id.encryptorInnerLayout);
+        Log.i("tagsdk", android.os.Build.VERSION.SDK_INT + " < 26");
+        // }
 
 
         //  LAYOUT  LAYOUT  LAYOUT
@@ -139,9 +149,59 @@ public class EncryptorAPI22 extends AppCompatActivity {
         animGivenback = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_givenback);
         animKey = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_key);
         animKeyback = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_keyback);
+        animFingeratGiven = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.finger_at_given);
+        animfingeratKey = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.finger_at_key);
+        animfingeratKeybutton = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.finger_at_keybutton);
+        animFingeratResult = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.finger_at_result);
+
+
+        //TODO only for the first app run
+        finger = findViewById(R.id.fingerview);
+        mark75p = findViewById(R.id.mark75p);
+        finger.setVisibility(ImageView.INVISIBLE);
+
+        if (true) {
+            finger.setVisibility(View.VISIBLE);
+            finger.startAnimation(animFingeratGiven);
+        }
+
+
+        //end switch
 
 
         //        //reaction to specific action on this view  -  keyboard "Enter" reaction
+
+        //Listeners for text edition in given
+
+        givenText.addTextChangedListener(new TextWatcher() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (givenText.length() > 0) {
+                    finger.startAnimation(animfingeratKey);
+                }
+                Log.i("tag", "Your Text onTextChanged");
+                // Fires right as the text is being changed (even supplies the range of text)
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+                Log.i("tag", "Your Text beforeTextChanged");
+                // Fires right before text is changing
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ///finger.startAnimation(animfingeratKey);
+                Log.i("tag", "Your Text afterTextChanged");
+                // Fires right after the text has changed
+            }
+        });
+
+
         editKey = (EditText) findViewById(R.id.keyText);
         //set password hint font to default - it was mambojumboing
         editKey.setTypeface(Typeface.DEFAULT);
@@ -175,6 +235,7 @@ public class EncryptorAPI22 extends AppCompatActivity {
 
 // todo: on text change in editKey, listen for editkey.length>0, than change keyButton style
 
+
         ConstraintSet constraintSet = new ConstraintSet();
         editKey.addTextChangedListener(new TextWatcher() {
             Button button;
@@ -183,6 +244,8 @@ public class EncryptorAPI22 extends AppCompatActivity {
             @SuppressLint("ResourceType")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                finger.startAnimation(animfingeratKeybutton);
+
                 Log.i("tag", "Your Text onTextChanged");
                 // Fires right as the text is being changed (even supplies the range of text)
 
@@ -193,12 +256,14 @@ public class EncryptorAPI22 extends AppCompatActivity {
                                           int after) {
                 Log.i("tag", "Your Text beforeTextChanged");
                 // Fires right before text is changing
+                //finger.startAnimation(animfingeratKeybutton);
 
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 Log.i("tag", "Your Text afterTextChanged");
                 // Fires right after the text has changed
 
@@ -243,7 +308,7 @@ public class EncryptorAPI22 extends AppCompatActivity {
                 layout.addView(button);
                 constraintSet.clone(layout);
                 //constraintSet.connect(button.getId(), ConstraintSet.RIGHT, R.id.keyText, ConstraintSet.LEFT, 0);
-                constraintSet.connect(button.getId(), ConstraintSet.RIGHT, R.id.givenText, ConstraintSet.RIGHT, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.RIGHT, R.id.mark75p, ConstraintSet.RIGHT, 0);
                 constraintSet.connect(button.getId(), ConstraintSet.BOTTOM, R.id.resultText, ConstraintSet.TOP, 20);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
@@ -252,8 +317,8 @@ public class EncryptorAPI22 extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // put code on click operation
+                        finger.setVisibility(View.INVISIBLE);
                         UseKey();
-
 
                     }
                 });
@@ -280,7 +345,7 @@ public class EncryptorAPI22 extends AppCompatActivity {
         ClipData myClip;
         myClip = ClipData.newPlainText("text", text);
         myClipboard.setPrimaryClip(myClip);
-        Toast.makeText(getApplicationContext(), "Text Copied",
+        Toast.makeText(getApplicationContext(), R.string.toast_enc_txtcopied,
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -293,7 +358,7 @@ public class EncryptorAPI22 extends AppCompatActivity {
         ClipData.Item item = abc.getItemAt(0);
         String text = item.getText().toString();
         ed2result.setText(text);
-        Toast.makeText(getApplicationContext(), "Text Pasted",
+        Toast.makeText(getApplicationContext(), R.string.toast_enc_txtpasted,
                 Toast.LENGTH_SHORT).show();
 
     }
@@ -316,7 +381,13 @@ public class EncryptorAPI22 extends AppCompatActivity {
      * @param
      */
     public void UseKey() {
+
+
         if (editKey.length() > 0) {
+            //hide finger
+            finger.clearAnimation();
+            findViewById(R.id.fingerview).setVisibility(View.INVISIBLE);
+
             //hide software keyboard
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editKey.getWindowToken(), 0);
@@ -331,6 +402,9 @@ public class EncryptorAPI22 extends AppCompatActivity {
                 @Override
                 public void onAnimationStart(Animation animation) {
                     resultTextView.setText("");
+                    //finger.clearAnimation();
+                    // findViewById(R.id.fingerview).setVisibility(View.GONE);
+
                     findViewById(R.id.keyText).startAnimation(animKey);
 
                 }
@@ -344,22 +418,30 @@ public class EncryptorAPI22 extends AppCompatActivity {
                     //do stuff
                     //givenText.setVisibility(View.INVISIBLE);
                     givenText.setText("");
+
                     givenText.startAnimation(animGivenback);
                     resultTextView.setText(encodedSourceText);
                     //set coursot to result textview
                     resultTextView.requestFocus();
                     findViewById(R.id.keyText).startAnimation(animKeyback);
 
+                    //finger clear animation to set visibility
+                    finger.clearAnimation();
+                    finger.setVisibility(ImageView.INVISIBLE);
+                    finger.startAnimation(animFingeratResult);
+
                 }
             });
 
             copybutton.startAnimation(animCopyButton);
+
+
             resultTextView.startAnimation(animResult);
 
             givenText.startAnimation(animGiven);
 
         } else {
-            Toast.makeText(getApplicationContext(), "Key should not be empty",
+            Toast.makeText(getApplicationContext(), R.string.toast_enc_keyempty,
                     Toast.LENGTH_SHORT).show();
         }
 

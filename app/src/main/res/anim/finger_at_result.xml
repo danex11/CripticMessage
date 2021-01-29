@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <translate
+        android:startOffset="1000"
+        android:fromXDelta="40%p"
+        android:fromYDelta="53%p"
+        android:toXDelta="39%p"
+        android:toYDelta="52%p"
+        android:duration="1000"
+        android:fillAfter="false"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"
+        android:visibility="visible" />
+
+    <alpha xmlns:android="http://schemas.android.com/apk/res/android"
+        android:startOffset="0"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="1000"
+        android:fillAfter="true"
+        android:repeatCount="0"
+        android:repeatMode="reverse" />
+</set>

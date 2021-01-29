@@ -128,7 +128,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="59dp"
             android:onClick="Copy"
-            android:text="Copy"
+            android:text="@string/copy_butt_lbl"
             app:layout_constraintStart_toStartOf="@+id/clearbutton"
             app:layout_constraintTop_toTopOf="@+id/clearbutton" />
 
@@ -138,7 +138,7 @@
             android:layout_width="85dp"
             android:layout_height="50dp"
             android:onClick="ClearOnButton"
-            android:text="Clear"
+            android:text="@string/clear_butt_lbl"
             app:layout_constraintEnd_toEndOf="@+id/givenText"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/resultText"
@@ -154,7 +154,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
             android:onClick="Paste"
-            android:text="Paste"
+            android:text="@string/paste_butt_lbl"
             app:layout_constraintEnd_toEndOf="@+id/givenText"
             app:layout_constraintStart_toStartOf="@+id/givenText"
             app:layout_constraintTop_toTopOf="@+id/givenText" />

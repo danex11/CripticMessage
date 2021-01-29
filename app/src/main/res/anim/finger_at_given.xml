@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <translate
+        android:startOffset="500"
+        android:fromXDelta="40%p"
+        android:fromYDelta="14%p"
+        android:toXDelta="39%p"
+        android:toYDelta="13%p"
+        android:duration="1000"
+        android:fillAfter="false"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse" />
+</set>
