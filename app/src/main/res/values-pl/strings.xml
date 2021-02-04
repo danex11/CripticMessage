@@ -19,7 +19,7 @@
     <string name="copy_butt_lbl">kopiuj</string>
     <string name="paste_butt_lbl">wklej</string>
     <string name="clear_butt_lbl">wyczyść</string>
-    <string name="info">W tej aplikacji możesz amienić dowolną wiadomość w zakodowaną wiadomość-szyfrogram. Szyfrogram może zostać odkodowany tylko z użyciem słowa klucza którego użyłeś do zakodowania go ;) Ustal tajne słowo klucz ze swoim przyjacielem i zacznij wysyłać \"Tajną wiadomość\"!</string>
+    <string name="info">Zmień dowolny tekst w zakodowaną wiadomość - szyfrogram. Szyfrogram może zostać odkodowany tylko z użyciem słowa klucza, którego użyłeś do zakodowania go ;) Ustal tajne słowo klucz ze swoim znajomym i zacznij wysyłać \"Tajną wiadomość\"!</string>
     <string name="encodebutton">Zakoduj</string>
     <string name="decodebutton">Odkoduj</string>
     <string name="toast_tooolderror">Twój system jest sa stary dla tej aplikacji</string>

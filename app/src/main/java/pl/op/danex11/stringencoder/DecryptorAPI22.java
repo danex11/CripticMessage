@@ -54,8 +54,7 @@ public class DecryptorAPI22 extends AppCompatActivity {
     ClipboardManager myClipboard;
     EditText ed2result;
     TextView resultTextView, resultlabel;
-    String deencodedSourceText;
-    Button clearbutton, copybutton;
+    Button copybutton;
     EditText givenText;
     EditText editKey;
 
@@ -133,16 +132,15 @@ public class DecryptorAPI22 extends AppCompatActivity {
         //copy and paste -ing
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-        ed2result = findViewById(R.id.givenText);
-        resultTextView = findViewById(R.id.resultText);
-        editKey = findViewById(R.id.keyText);
+        ed2result = findViewById(R.id.givenTextDecr);
+        resultTextView = findViewById(R.id.resultTextDecr);
+        editKey = findViewById(R.id.keyTextDecr);
         //given text winding and keyboard behaviour
-        givenText = findViewById(R.id.givenText);
+        givenText = findViewById(R.id.givenTextDecr);
         givenText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         givenText.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
-        clearbutton = findViewById(R.id.clearbutton);
-        copybutton = findViewById(R.id.copybutton);
+        copybutton = findViewById(R.id.copybuttonDecr);
 
         //final Animation animBounce = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce_anim);
         animGiven = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_given);
@@ -154,10 +152,9 @@ public class DecryptorAPI22 extends AppCompatActivity {
         animGivenfadeDecr = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_givenfade_decrypt);
 
         resultTextView.setVisibility(View.INVISIBLE);
-        clearbutton.setVisibility(View.INVISIBLE);
         copybutton.setVisibility(View.INVISIBLE);
 
-        resultlabel = findViewById(R.id.resultlabel);
+        resultlabel = findViewById(R.id.resultlabelDecr);
         resultlabel.setVisibility(View.INVISIBLE);
 
 
@@ -178,9 +175,11 @@ public class DecryptorAPI22 extends AppCompatActivity {
                             //action
                             // Toast.makeText(getApplicationContext(), "IME action",Toast.LENGTH_SHORT).show();
                             //hide keyboard
-                            UseKey(layout);//view?????????????
-
-                            handled = true;
+                            try {
+                                UseKey(layout);//view?????????????
+                            } finally {
+                                handled = true;
+                            }
                         }
                         return handled;
                     }
@@ -237,30 +236,30 @@ public class DecryptorAPI22 extends AppCompatActivity {
                 //}
                 constraintSet.clone(layout);
                 Log.i("constraitainset", String.valueOf(constraintSet));
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyTextDecr, ConstraintSet.TOP, 0);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
                 constraintSet.clone(layout);
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyTextDecr, ConstraintSet.TOP, 0);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
 
                 //add button to the layout
                 layout.addView(button);
                 constraintSet.clone(layout);
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyTextDecr, ConstraintSet.TOP, 0);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
                 layout.removeView(button);
                 constraintSet.clone(layout);
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyText, ConstraintSet.TOP, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.keyTextDecr, ConstraintSet.TOP, 0);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
                 layout.addView(button);
                 constraintSet.clone(layout);
                 //constraintSet.connect(button.getId(), ConstraintSet.RIGHT, R.id.keyText, ConstraintSet.LEFT, 0);
-                constraintSet.connect(button.getId(), ConstraintSet.LEFT, R.id.givenText, ConstraintSet.LEFT, 0);
-                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.givenText, ConstraintSet.BOTTOM, 15);
+                constraintSet.connect(button.getId(), ConstraintSet.LEFT, R.id.givenTextDecr, ConstraintSet.LEFT, 0);
+                constraintSet.connect(button.getId(), ConstraintSet.TOP, R.id.givenTextDecr, ConstraintSet.BOTTOM, 15);
                 Log.i("constraitainsetAfter", String.valueOf(constraintSet));
                 constraintSet.applyTo(layout);
                 //button Onclick listener
@@ -317,7 +316,7 @@ public class DecryptorAPI22 extends AppCompatActivity {
     }
 
     public void ClearOnButton(View view) {
-        ed2result = findViewById(R.id.resultText);
+        ed2result = findViewById(R.id.resultTextDecr);
         ed2result.setText("");
         resultTextView.setText("");
     }
@@ -329,9 +328,7 @@ public class DecryptorAPI22 extends AppCompatActivity {
         if (editKey.length() > 0) {
 
 
-            ClearEditText(givenText);
             resultTextView.setVisibility(View.VISIBLE);
-            clearbutton.setVisibility(View.VISIBLE);
             copybutton.setVisibility(View.VISIBLE);
             resultlabel.setVisibility(View.VISIBLE);
             //hide keyboard
@@ -340,10 +337,14 @@ public class DecryptorAPI22 extends AppCompatActivity {
 
             if (resultTextView.length() > 0) {
                 resultTextView.setText("");
+            } else {
             }
+            // ClearEditText(givenText);
 
-
-            decode_array(findViewById(R.id.keyText));
+            String givenCipher = givenText.getText().toString();
+            Log.i("givencipher", "::" + givenCipher);
+            //givenTextindViewById(R.id.givenTextDecr);
+            decodedText = De_text(givenCipher);
 
 
             givenText.startAnimation(animGiven);
@@ -354,7 +355,7 @@ public class DecryptorAPI22 extends AppCompatActivity {
                     //resultTextView.setText("");
                     //finger.clearAnimation();
                     // findViewById(R.id.fingerview).setVisibility(View.GONE);
-                    findViewById(R.id.keyText).startAnimation(animKeyDecr);
+                    findViewById(R.id.keyTextDecr).startAnimation(animKeyDecr);
                 }
 
                 @Override
@@ -365,7 +366,8 @@ public class DecryptorAPI22 extends AppCompatActivity {
 
 
 ///////////////////////////////////
-                    resultTextView.setText(decodedText);
+                    Log.i("De_text-decodedText:", decodedText);
+                    //resultTextView.setText(decodedText);
 
                     //set coursot to result textview
                     resultTextView.requestFocus();
@@ -399,7 +401,8 @@ public class DecryptorAPI22 extends AppCompatActivity {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     givenText.startAnimation(animGivenback);
-                    findViewById(R.id.keyText).startAnimation(animKeyback);
+                    findViewById(R.id.keyTextDecr).startAnimation(animKeyback);
+                    resultTextView.setText(decodedText);
 
                 }
 
@@ -411,9 +414,25 @@ public class DecryptorAPI22 extends AppCompatActivity {
 
 
             resultTextView.startAnimation(animResult);
+            animResult.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    //resultTextView.setText(decodedText);
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
             //ClearEditText(givenText);
             //resultTextView.setVisibility(View.VISIBLE);
-            clearbutton.setVisibility(View.VISIBLE);
             copybutton.setVisibility(View.VISIBLE);
             resultlabel.setVisibility(View.VISIBLE);
             editKey.startAnimation(animKeyDecr);
@@ -424,34 +443,11 @@ public class DecryptorAPI22 extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.toast_enc_keyempty),
                     Toast.LENGTH_SHORT).show();
         }
-        //decode_array(findViewById(R.id.keyText));
+        //decode(findViewById(R.id.keyText));
     }
 
 
-    /**
-     * * this is for working with arrays of strings
-     *
-     * @
-     */
-    public void decode_array(View view) {
-        //>> for String
-        //put hardcoded array here
-        //String[] userIdFirebaseArr = {""};
-        // userIdFirebaseArr[0]= "StringToEncode";
-        //Get text from message textfield
-        TextView givenTextView = findViewById(R.id.givenText);
 
-        String givenTextStrg = givenTextView.getText().toString();
-        //userIdFirebaseArr[0] = givenTextStrg;
-        //decodedText = De_text(userIdFirebaseArr);
-        decodedText = De_text(givenTextStrg);
-        //Log.i("En_tagDecipheredtext", Arrays.toString(decodedText));
-
-        //resultTextView.setText(decodedText[0]);
-        ////////////////////////////////////////resultTextView.setText(decodedText);
-
-
-    }
 
     /**
      * Decrypting method
@@ -460,10 +456,16 @@ public class DecryptorAPI22 extends AppCompatActivity {
      * @return
      */
     public String De_text(String ciphertext) {
+        Log.i("tag_giventodecode", "given: " + ciphertext);
         //String[] decodedTexts = new String[ciphertext.length];
 
 
         //Typed key
+
+        // TextView givenTextView = findViewById(R.id.givenTextDecr);
+        //Log.i("findgivenTxtView", "givenTxtView:" + givenTextView);
+        // String givenTextStrg = givenTextView.getText().toString();
+        // Log.i("givenTxtStrg", "givenTxtStrg:" + givenTextStrg);
 
         String KeyStrg = editKey.getText().toString();
         //Hash key
@@ -490,7 +492,7 @@ public class DecryptorAPI22 extends AppCompatActivity {
 
             //<<@ciphertext is a value we store as a Base64 string
             //todo this is our Base64 problem
-            Log.i("tag_ciphertext", "text " + ciphertext);
+            Log.i("tag_ciphertext", "text: " + ciphertext);
             byte[] cipherText;
 
             //TODO crashing for some strings
@@ -533,6 +535,7 @@ public class DecryptorAPI22 extends AppCompatActivity {
      * @param view
      * @throws
      */
+    /*
     public void setViews(View view) throws NoSuchAlgorithmException {
         //>> for String
         //Get text from message textfield
@@ -541,11 +544,13 @@ public class DecryptorAPI22 extends AppCompatActivity {
         //String givenTextStrg = "PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt into.";
 
         //THERE
-        deencodedSourceText = De_text(givenTextStrg);
+        /////////deencodedSourceText = De_text(givenTextStrg);
 
         TextView resultTextView = findViewById(R.id.resultText);
         resultTextView.setText(deencodedSourceText);
     }
+
+     */
 
 
     /**

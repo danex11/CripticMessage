@@ -11,7 +11,7 @@
         android:fromYDelta="0%p"
         android:toXDelta="0%p"
         android:toYDelta="28%p"
-        android:duration="700"
+        android:duration="1000"
         android:fillAfter="true" />
     <!--
             <scale

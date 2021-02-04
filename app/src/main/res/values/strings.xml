@@ -22,7 +22,7 @@
     <string name="paste_butt_lbl">paste</string>
     <string name="clear_butt_lbl">clear</string>
 
-    <string name="info">This app allows You to turn any text message into encoded ciphertext-message. The cipertext-message can be deciphered only with the key word that You used to encode it ;) Set up a secret word with Your friend and  start sending him \"Secret messages\"!</string>
+    <string name="info">Turn any text message into encoded ciphertext-message. The cipertext-message can be deciphered only with the key word that You used to encode it ;) Set up a secret word with Your friend and  start sending him \"Secret messages\"!</string>
     <string name="encodebutton">Encode</string>
     <string name="decodebutton">Decode</string>
 </resources>

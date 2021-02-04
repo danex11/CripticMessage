@@ -49,31 +49,18 @@
         <!-- result Text -->
 
         <Button
-            android:id="@+id/copybutton"
+            android:id="@+id/copybuttonDecr"
             style="@style/AppCompatButton"
             android:layout_width="85dp"
             android:layout_height="50dp"
-            android:layout_marginTop="59dp"
+            android:layout_marginTop="20dp"
             android:onClick="Copy"
             android:text="@string/copy_butt_lbl"
-            app:layout_constraintStart_toStartOf="@+id/clearbutton"
-            app:layout_constraintTop_toTopOf="@+id/clearbutton" />
-
-        <Button
-            android:id="@+id/clearbutton"
-            style="@style/AppCompatButton"
-            android:layout_width="85dp"
-            android:layout_height="50dp"
-            android:onClick="ClearOnButton"
-            android:text="@string/clear_butt_lbl"
-            app:layout_constraintEnd_toEndOf="@+id/givenText"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/resultText"
-            app:layout_constraintTop_toBottomOf="@+id/resultText"
-            tools:ignore="OnClick" />
+            app:layout_constraintEnd_toEndOf="@+id/resultTextDecr"
+            app:layout_constraintTop_toBottomOf="@+id/resultTextDecr" />
 
         <EditText
-            android:id="@+id/keyText"
+            android:id="@+id/keyTextDecr"
             style="@style/AppCompatEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,14 +74,14 @@
             android:maxLines="1"
             android:padding="3dp"
             android:textColorHint="@color/colorPrimaryDark"
-            app:layout_constraintEnd_toEndOf="@+id/givenText"
+            app:layout_constraintEnd_toEndOf="@+id/givenTextDecr"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/givenText"
+            app:layout_constraintTop_toBottomOf="@+id/givenTextDecr"
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/resultlabel"
+            android:id="@+id/resultlabelDecr"
             android:editable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,27 +92,27 @@
             android:text="@string/realmsg_lbl"
             android:textColor="@color/colorSecondary"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/resultText"
-            app:layout_constraintTop_toBottomOf="@+id/keyText" />
+            app:layout_constraintStart_toStartOf="@+id/resultTextDecr"
+            app:layout_constraintTop_toBottomOf="@+id/keyTextDecr" />
 
         <EditText
-            android:id="@+id/resultText"
+            android:id="@+id/resultTextDecr"
             style="@style/AppCompatEditText"
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:imeOptions="actionNext"
-            android:maxLines="5"
+            android:maxLines="4"
+            android:padding="10dp"
             android:scrollbars="vertical"
             android:singleLine="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/givenText"
-            app:layout_constraintTop_toBottomOf="@+id/resultlabel" />
+            app:layout_constraintStart_toStartOf="@+id/givenTextDecr"
+            app:layout_constraintTop_toBottomOf="@+id/resultlabelDecr" />
 
         <Button
-            android:id="@+id/pastebutton"
+            android:id="@+id/pastebuttonDecr"
             style="@style/AppCompatButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -134,12 +121,12 @@
             android:layout_marginEnd="32dp"
             android:onClick="Paste"
             android:text="@string/paste_butt_lbl"
-            app:layout_constraintEnd_toEndOf="@+id/givenText"
-            app:layout_constraintStart_toStartOf="@+id/givenText"
-            app:layout_constraintTop_toTopOf="@+id/givenText" />
+            app:layout_constraintEnd_toEndOf="@+id/givenTextDecr"
+            app:layout_constraintStart_toStartOf="@+id/givenTextDecr"
+            app:layout_constraintTop_toTopOf="@+id/givenTextDecr" />
 
         <EditText
-            android:id="@+id/givenText"
+            android:id="@+id/givenTextDecr"
             style="@style/AppCompatEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
