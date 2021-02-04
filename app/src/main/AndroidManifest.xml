@@ -12,15 +12,25 @@
         <activity
             android:name=".MainMenu"
             android:icon="@mipmap/ic_dencrypthexa"
-            android:label="@string/coder_applbl">
+            android:label="@string/coder_applbl"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EncryptorAPI22"></activity>
-        <activity android:name=".DecryptorAPI22"></activity>
+
+        <activity
+            android:name=".EncryptorAPI22"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">>
+        </activity>
+
+        <activity
+            android:name=".DecryptorAPI22"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"></activity>
 
 
     </application>

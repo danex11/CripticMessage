@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -70,6 +71,8 @@ public class EncryptorAPI22 extends AppCompatActivity {
 
     Animation animGiven, animCopyButton, animResult, animGivenback, animKey, animKeyback;
     Animation animFingeratGiven, animfingeratKey, animfingeratKeybutton, animFingeratResult;
+
+    SharedPreferences pref;
 
     int step = 0;
 
@@ -160,9 +163,14 @@ public class EncryptorAPI22 extends AppCompatActivity {
         mark75p = findViewById(R.id.mark75p);
         finger.setVisibility(ImageView.INVISIBLE);
 
-        if (true) {
+        //init sharedprefs
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+
+        Log.i("firstrunEn", " " + (pref.getBoolean("firstrun", true)));
+        if (pref.getBoolean("firstrun", true)) {
             finger.setVisibility(View.VISIBLE);
             finger.startAnimation(animFingeratGiven);
+            //reset tutorial finger
         }
 
 
@@ -178,7 +186,9 @@ public class EncryptorAPI22 extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (givenText.length() > 0) {
-                    finger.startAnimation(animfingeratKey);
+                    if (pref.getBoolean("firstrun", true)) {
+                        finger.startAnimation(animfingeratKey);
+                    }
                 }
                 Log.i("tag", "Your Text onTextChanged");
                 // Fires right as the text is being changed (even supplies the range of text)
@@ -244,7 +254,9 @@ public class EncryptorAPI22 extends AppCompatActivity {
             @SuppressLint("ResourceType")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                finger.startAnimation(animfingeratKeybutton);
+                if (pref.getBoolean("firstrun", true)) {
+                    finger.startAnimation(animfingeratKeybutton);
+                }
 
                 Log.i("tag", "Your Text onTextChanged");
                 // Fires right as the text is being changed (even supplies the range of text)
@@ -317,20 +329,15 @@ public class EncryptorAPI22 extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // put code on click operation
-                        finger.setVisibility(View.INVISIBLE);
+                        if (pref.getBoolean("firstrun", true)) {
+                            finger.setVisibility(View.INVISIBLE);
+                        }
                         UseKey();
 
                     }
                 });
             }
         });
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
 
     }
 
@@ -347,6 +354,12 @@ public class EncryptorAPI22 extends AppCompatActivity {
         myClipboard.setPrimaryClip(myClip);
         Toast.makeText(getApplicationContext(), R.string.toast_enc_txtcopied,
                 Toast.LENGTH_SHORT).show();
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("firstrun", false); // Storing boolean - true/false
+        editor.commit(); // commit changes
+        Log.i("firstruntutorialfinish", " " + (pref.getBoolean("firstrun", true)));
+
     }
 
     /**
@@ -384,10 +397,12 @@ public class EncryptorAPI22 extends AppCompatActivity {
 
 
         if (editKey.length() > 0) {
-            //hide finger
-            finger.clearAnimation();
-            findViewById(R.id.fingerview).setVisibility(View.INVISIBLE);
+            if (pref.getBoolean("firstrun", true)) {
 
+                //hide finger
+                finger.clearAnimation();
+                findViewById(R.id.fingerview).setVisibility(View.INVISIBLE);
+            }
             //hide software keyboard
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editKey.getWindowToken(), 0);
@@ -425,10 +440,13 @@ public class EncryptorAPI22 extends AppCompatActivity {
                     resultTextView.requestFocus();
                     findViewById(R.id.keyText).startAnimation(animKeyback);
 
-                    //finger clear animation to set visibility
-                    finger.clearAnimation();
-                    finger.setVisibility(ImageView.INVISIBLE);
-                    finger.startAnimation(animFingeratResult);
+                    if (pref.getBoolean("firstrun", true)) {
+                        //finger clear animation to set visibility
+                        finger.clearAnimation();
+                        finger.setVisibility(ImageView.INVISIBLE);
+                        finger.startAnimation(animFingeratResult);
+
+                    }
 
                 }
             });
@@ -565,5 +583,14 @@ public class EncryptorAPI22 extends AppCompatActivity {
         return cipherB64Text;
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+
+        finish();
+
+    }
 
 }

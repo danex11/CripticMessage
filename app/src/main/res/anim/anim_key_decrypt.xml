@@ -6,12 +6,12 @@
     <!--android:interpolator="@anim/pathinterpolator"-->
 
     <translate
-        android:startOffset="0"
+        android:startOffset="1200"
         android:fromXDelta="0%p"
         android:fromYDelta="0%p"
         android:toXDelta="0%p"
-        android:toYDelta="28%p"
-        android:duration="700"
+        android:toYDelta="22%p"
+        android:duration="1000"
         android:fillAfter="true" />
     <!--
             <scale
