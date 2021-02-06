@@ -6,7 +6,7 @@
         android:startOffset="0"
         android:fromAlpha="1.0"
         android:toAlpha="0.0"
-        android:duration="500"
+        android:duration="800"
         android:repeatCount="0"
         android:repeatMode="reverse" />
 

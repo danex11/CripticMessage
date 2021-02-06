@@ -13,43 +13,6 @@
     </style>
 
 
-    <!--    <item name="actionBarTheme">"@attr/NoActionBar"</item>
-<style name="MyActionBarTheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-</style>
--->
-
-    <!--    this is setting default theme for EditText in the whole app  <item name="android:editTextStyle">@style/TextViewNewDefault</item> -->
-    <style name="TextViewNewDefault" parent="Widget.AppCompat.EditText">
-        <item name="android:textAllCaps">true</item>
-    </style>
-
-    <!-- Button theme. -->
-    <style name="Button.Style.Aqua" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorPrimary">@color/colorPrimary</item>
-
-        <item name="colorOnPrimary">?attr/colorOnPrimary</item>
-        <item name="backgroundTint">?attr/colorPrimary</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
-    </style>
-
-
-    <!-- EditText theme for coded messsage -->
-    <style name="EditTextLayout_Green" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeWidth">2dp</item>
-        <item name="boxStrokeColor">@color/textlayout_outline_colour_switcher</item>
-        <item name="hintTextColor">@color/colorPrimaryDark</item>
-        <item name="startIconTint">@color/colorSecondary</item>
-        <item name="endIconTint">@color/colorSecondary</item>
-        <item name="android:textColor">@color/colorSecondary</item>
-    </style>
-
-    <!--
-     <item name="hintTextColor">?attr/colorOnSurface</item>
-        <item name="colorPrimary">@color/textfield1</item>
-        <item name="colorOnSurface">@color/textfield2</item>
-        <item name="colorError">@color/textfield3</item>
-        -->
-
     <!-- >>>>>>>>>>>>>Non material styles -->
     <style name="AppCompatEditText" parent="Widget.AppCompat.EditText">
         <item name="colorControlActivated">@color/cursor</item>

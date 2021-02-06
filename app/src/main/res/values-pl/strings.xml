@@ -1,15 +1,12 @@
 <resources>
-    <string name="app_name">Tajna wiadomość 20210119</string>
+    <string name="app_name">Tajna wiadomość</string>
 
-    <string name="coder_applbl"> Tajna wiadomość v1</string>
-    <string name="decoder_applbl"> dekoder v1</string>
+    <string name="coder_applbl"> Tajna wiadomość</string>
 
-    <string name="typehere_hlpr">wpisz wiadomość</string>
     <string name="key_hlpr">podaj klucz</string>
     <string name="key_butt_lbl">UŻYJ KLUCZA</string>
 
     <string name="realmsg_lbl">twoja wiadomość</string>
-    <string name="codedmsg_lbl">szyfrogram</string>
 
     <string name="given_txthint">wpisz wiadomość …</string>
 
@@ -18,9 +15,7 @@
     <string name="toast_enc_keyempty">Klucz nie może być pusty</string>
     <string name="copy_butt_lbl">kopiuj</string>
     <string name="paste_butt_lbl">wklej</string>
-    <string name="clear_butt_lbl">wyczyść</string>
     <string name="info">Zmień dowolny tekst w zakodowaną wiadomość - szyfrogram. Szyfrogram może zostać odkodowany tylko z użyciem słowa klucza, którego użyłeś do zakodowania go ;) Ustal tajne słowo klucz ze swoim znajomym i zacznij wysyłać \"Tajną wiadomość\"!</string>
     <string name="encodebutton">Zakoduj</string>
     <string name="decodebutton">Odkoduj</string>
-    <string name="toast_tooolderror">Twój system jest sa stary dla tej aplikacji</string>
 </resources>

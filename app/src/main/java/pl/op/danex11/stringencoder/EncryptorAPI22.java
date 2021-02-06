@@ -3,8 +3,6 @@
 
 package pl.op.danex11.stringencoder;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -74,7 +72,6 @@ public class EncryptorAPI22 extends AppCompatActivity {
 
     SharedPreferences pref;
 
-    int step = 0;
 
     /**
      * Algorithm setting
@@ -376,17 +373,6 @@ public class EncryptorAPI22 extends AppCompatActivity {
 
     }
 
-    /**
-     * CLEAR
-     */
-    public void Clear(View view) {
-        ed2result = findViewById(R.id.givenText);
-        ed2result.setText("");
-    }
-
-    public void ClearEditText(EditText view) {
-        view.setText("");
-    }
 
     /**
      * USE KEY
@@ -467,7 +453,7 @@ public class EncryptorAPI22 extends AppCompatActivity {
     }
 
     /**
-     * * this is for working with arrays of strings
+     * * ENCRYPT
      *
      * @param view
      * @throws IOException

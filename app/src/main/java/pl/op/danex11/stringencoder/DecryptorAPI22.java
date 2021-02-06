@@ -34,9 +34,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 //TODO swipeview
@@ -47,15 +45,13 @@ import javax.crypto.spec.SecretKeySpec;
 public class DecryptorAPI22 extends AppCompatActivity {
 
     byte[] keyBytesFromStr;
-    String cipherB64Text;
     String decodedText;
 
     //copy and paste -ing
     ClipboardManager myClipboard;
-    EditText ed2result;
+    EditText givenText;
     TextView resultTextView, resultlabel;
     Button copybutton;
-    EditText givenText;
     EditText editKey;
 
     ConstraintLayout layout;
@@ -88,23 +84,10 @@ public class DecryptorAPI22 extends AppCompatActivity {
     }
 
     /**
-     * Algorithm setting
+     * OnCreate
      *
-     * @param toEncrypt
-     * @return
+     * @param savedInstanceState
      */
-    public static final SecretKey generateKey(final String toEncrypt) {
-        KeyGenerator keygen = null;
-        try {
-            keygen = KeyGenerator.getInstance("AES");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        SecretKey key = keygen.generateKey();
-        return key;
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +115,6 @@ public class DecryptorAPI22 extends AppCompatActivity {
         //copy and paste -ing
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-        ed2result = findViewById(R.id.givenTextDecr);
         resultTextView = findViewById(R.id.resultTextDecr);
         editKey = findViewById(R.id.keyTextDecr);
         //given text winding and keyboard behaviour
@@ -302,7 +284,7 @@ public class DecryptorAPI22 extends AppCompatActivity {
         ClipData abc = myClipboard.getPrimaryClip();
         ClipData.Item item = abc.getItemAt(0);
         String text = item.getText().toString();
-        ed2result.setText(text);
+        givenText.setText(text);
         Toast.makeText(getApplicationContext(), "Text Pasted",
                 Toast.LENGTH_SHORT).show();
 
@@ -313,12 +295,6 @@ public class DecryptorAPI22 extends AppCompatActivity {
      */
     public void ClearEditText(EditText view) {
         view.setText("");
-    }
-
-    public void ClearOnButton(View view) {
-        ed2result = findViewById(R.id.resultTextDecr);
-        ed2result.setText("");
-        resultTextView.setText("");
     }
 
     /**
@@ -447,10 +423,8 @@ public class DecryptorAPI22 extends AppCompatActivity {
     }
 
 
-
-
     /**
-     * Decrypting method
+     * DECRYPTING
      *
      * @param ciphertext
      * @return
@@ -482,7 +456,7 @@ public class DecryptorAPI22 extends AppCompatActivity {
         SecretKeySpec secretkey = new SecretKeySpec(keyBytesFromStr, algorithmo);
         //temp placeholder since decodedTexts has no value yet, and might not get any value if deciphering fails
         String decipheredTextStr = "¯\\_(ツ)_/¯";
-        ;
+
 
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
@@ -519,155 +493,13 @@ public class DecryptorAPI22 extends AppCompatActivity {
     }
 
     /**
-     * * making String from bytes
+     * * HELPING METHOD: making String from bytes
      *
      * @param bytes
      * @return
      */
     String decodeUTF8(byte[] bytes) {
         return new String(bytes, StandardCharsets.UTF_8);
-    }
-
-
-    /**
-     * * this is for working with arrays of strings
-     *
-     * @param view
-     * @throws
-     */
-    /*
-    public void setViews(View view) throws NoSuchAlgorithmException {
-        //>> for String
-        //Get text from message textfield
-        TextView givenTextView = findViewById(R.id.givenText);
-        String givenTextStrg = givenTextView.getText().toString();
-        //String givenTextStrg = "PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt into.";
-
-        //THERE
-        /////////deencodedSourceText = De_text(givenTextStrg);
-
-        TextView resultTextView = findViewById(R.id.resultText);
-        resultTextView.setText(deencodedSourceText);
-    }
-
-     */
-
-
-    /**
-     * Encrypting method
-     *
-     * @param plaintext
-     * @return
-     */
-    public String DeEn_text(String plaintext) {
-        //"AES/ECB/PKCS5Padding"
-        String algorithm = "AES/ECB/PKCS5Padding";
-        Cipher cipher = null;
-
-        try {
-            //AdvancedEncodingStandard ElectronicCodeBook
-            //PKCS5Padding part is how the AES algorithm should handle the last bytes of the data to encrypt into. , if the data does not align with a 64 bit or 128 bit block size boundary.
-            //AES supported key sizes?
-            //todo try different algorithms
-
-            //algorithms providers to trasverse throught
-            // Log.i("tagProvid", String.valueOf(Security.getProviders()) + Arrays.toString(Security.getProviders()));
-            cipher = Cipher.getInstance(algorithm);
-
-            /*
-            >ALGORITHMS<
-            AES
-            keylength:  128/192/256 bits
-            encoding 100 chars gives 154 chars
-            DES
-            keylength: 8 bytes
-            encoding 100 chars gives 142 chars
-            DESede
-            keylength: 16 or 24 bytes
-            encoding 100 chars gives 142 chars
-            ECIES
-            no Provider
-            RC2
-            no Provider
-            RC4
-            keylength: variable
-            encoding 100 chars gives 138 chars
-            RC5
-            no Provider
-            Blowfish
-            keylength:
-            encoding 100 chars gives 142 chars
-            ECIES
-            no Provider
-
-
-            >when generating an instance of MessageDigest - for KeyGen <
-            SHA-512
-            keylength(noPadding): 128 Bytes
-            SHA-256
-            keylength(noPadding): 64 Bytes
-            MD5
-            keylength(noPadding): 32 Bytes (256 bits)
-
-             */
-
-            //cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            Log.i("tagCipherExep", "e ofAlgorithm");
-            Log.i("tagCipherExep", String.valueOf(e));
-            e.printStackTrace();
-        }
-
-        //Typed key
-        TextView editedTextView = findViewById(R.id.keyText);
-        String KeyStrg = editedTextView.getText().toString();
-        //Hashed key
-        SecretKey hashedKey = generateKey(KeyStrg);
-        Log.i("tagKey", " Key " + hashedKey);
-        //Log.i("tagKey", " Key length " + hashedKey.length());
-        // keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
-        //key from given bytes array
-        //String keyinitalgorithmo = "RawByteso";
-        //SecretKeySpec key = new SecretKeySpec(keyBytesFromStr, keyinitalgorithmo);
-        // Log.i("tagKey", " secretKeyspec " + key);
-        //Log.i("tagKey", " secretKeyspec length " + key.);
-        //keyBytesFromStr = hashedKey.getBytes(StandardCharsets.UTF_8);
-        //Log.i("tagKey", " hashedKeyArrayElementCount " + keyBytesFromStr.length);
-
-        //Password-Based Key Derivation Function 2 is a key stretching algorithm
-        //adding bytes to passphase to make a key out of it
-        //https://stackoverflow.com/questions/29354133/how-to-fix-invalid-aes-key-length
-        //https://stackoverflow.com/questions/8091519/pbkdf2-function-in-android
-
-        //DECRYPT
-        try {
-            cipher.init(Cipher.DECRYPT_MODE, hashedKey);
-
-            Log.i("tagplaintext", "plaintext before " + plaintext);
-            //plain text as bytes
-            byte[] plainTextBytes = plaintext.getBytes(StandardCharsets.UTF_8);
-
-            //cipher
-            byte[] cipherText = cipher.doFinal(plainTextBytes);
-            //cipher text back to string
-            cipherB64Text = Base64.encodeToString(cipherText, Base64.DEFAULT);
-            Log.i("tagciphertext", "cipher after " + cipherB64Text);
-            //String text = readFileAsString("textfile.txt");
-            //String cipherB64TextFormat = "\"" + cipherB64Text.replace("\n", "")+ "\"";//.replace("\r", "");
-
-            //this is specific formatting for messagesMessages()
-            //encoded64texts[i] = "\"" + cipherB64Text.substring(0, 24) + "\"";
-
-
-            //this is general function
-            //encoded64texts[i] = cipherB64Text;
-
-
-        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
-        }
-
-        return cipherB64Text;
     }
 
     @Override

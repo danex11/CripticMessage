@@ -7,8 +7,8 @@ android {
         applicationId "pl.op.danex11.stringencoder"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 1
-        versionName "1"
+        versionCode 2
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         compileOptions {
             encoding "UTF-8"
@@ -18,6 +18,8 @@ android {
 
     buildTypes {
         release {
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
             minifyEnabled false
             //      https://teamtreehouse.com/community/what-is-minifyenabled
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
